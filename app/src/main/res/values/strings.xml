@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Invoice</string>
+    <string name="btn_1">Invoice</string>
+    <string name="btn_2">Items</string>
+    <string name="btn_3">Search</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_invoice">Invoice</string>
+</resources>
