@@ -42,6 +42,8 @@ public class Database extends SQLiteOpenHelper {
     public static final String COLUMN_PRODUCTNAME = "productname";
     public static final String COLUMN_QUANTITY = "quantity";
 
+    // database constructor: when you call use current context
+    // example Database db = new Database(this, null, null, 1);
     public Database(Context context, String name,
                     SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DATABASE_NAME, factory, DATABASE_VERSION);
