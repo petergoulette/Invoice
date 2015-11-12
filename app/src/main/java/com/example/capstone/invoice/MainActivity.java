@@ -1,9 +1,12 @@
 package com.example.capstone.invoice;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -11,6 +14,28 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Button invoice = (Button) findViewById(R.id.button);
+        Button search = (Button) findViewById(R.id.button3);
+        Button items = (Button) findViewById(R.id.button2);
+
+        invoice.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, Invoice.class));
+            }
+        });
+
+        search.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, Search.class));
+            }
+        });
+
+        items.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, Items_view.class));
+            }
+        });
     }
 
     @Override
