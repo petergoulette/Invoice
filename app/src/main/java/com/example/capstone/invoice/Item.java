@@ -7,23 +7,23 @@ public class Item {
 
     private int itemId;
     private String itemName;
-    private int itemQuantity;
+    private int itemRate;
 
     public Item (){}
 
-    public Item (int id, String name, int quantity){
-        itemId=id;
-        itemName=name;
-        itemQuantity=quantity;
+    public Item (int id, String name, int Rate){
+        this.itemId=id;
+        this.itemName=name;
+        this.itemRate=Rate;
     }
 
-    public Item (String name, int quantity){
-        itemName=name;
-        itemQuantity=quantity;
+    public Item (String name, int Rate){
+        this.itemName=name;
+        this.itemRate=Rate;
     }
 
     public int getItemId() {
-        return itemId;
+        return this.itemId;
     }
 
     public void setItemId(int itemId) {
@@ -31,20 +31,18 @@ public class Item {
     }
 
     public String getItemName() {
-        return itemName;
+        return this.itemName;
     }
 
     public void setItemName(String itemName) {
         this.itemName = itemName;
     }
 
-    public int getItemQuantity() {
-        return itemQuantity;
+    public int getItemRate() {
+        return this.itemRate;
     }
 
-    public void setItemQuantity(int itemQuantity) {
-        this.itemQuantity = itemQuantity;
+    public void setItemRate(int itemRate) {
+        this.itemRate = itemRate;
     }
-
-
 }

@@ -1,16 +1,40 @@
 package com.example.capstone.invoice;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 
 public class Items_view extends AppCompatActivity {
+
+    EditText IName;
+    EditText IRate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_items_view);
+
+        IName = (EditText) findViewById(R.id.itemName);
+        IRate = (EditText) findViewById(R.id.itemRate);
+    }
+
+    public void newItem (View view) {
+
+       Database dbHandler = new Database(this, null, null, 1);
+        //IName.setText("ok");
+        //IRate.setText("10");
+        int quantity =
+                Integer.parseInt(IRate.getText().toString());
+        Item item =
+                new Item(IName.getText().toString(), quantity);
+
+        IRate.setText(Integer.toString(item.getItemRate()));
+
+        dbHandler.addItem(item);
+        IName.setText(item.getItemName() + " added");
     }
 
     @Override

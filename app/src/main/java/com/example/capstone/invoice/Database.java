@@ -6,7 +6,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -17,13 +17,13 @@ public class Database extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "productDB.db";
 
     // db table constants for Item
-    private static final String TABLE_ITEM = "item";
-    private static final String ITEM_ID = "itemID";
-    private static final String ITEM_NAME = "itemName";
-    private static final String ITEM_RATE = "itemRate";
+    private static final String TABLE_ITEM = "itemTABLE";
+    private static final String ITEM_ID = "_itemID";
+    private static final String ITEM_NAME = "_itemName";
+    private static final String ITEM_RATE = "_itemRate";
 
     // db table constants for Customer
-    private static final String TABLE_CUSTOMER = "Customer";
+    private static final String TABLE_CUSTOMER = "CustomerTABLE";
     private static final String CUSTOMER_ID = "CustID";
     private static final String CUSTOMER_FIRST_NAME = "CustFName";
     private static final String CUSTOMER_LAST_NAME = "CustLName";
@@ -64,12 +64,15 @@ public class Database extends SQLiteOpenHelper {
         String CREATE_CUSTOMER_TABLE = "CREATE TABLE " +
                 TABLE_CUSTOMER + "("
                 + CUSTOMER_ID + " INTEGER PRIMARY KEY," + CUSTOMER_FIRST_NAME
-                + " TEXT," + CUSTOMER_LAST_NAME + " TEXT," + CUSTOMER_STREET + " TEXT," + CUSTOMER_CITY + " TEXT," + CUSTOMER_ZIP + " INTEGER"
-                + CUSTOMER_STATE + " TEXT," + CUSTOMER_PHONE1 + " TEXT,"+ CUSTOMER_NOTES + " TEXT," + ")";
+                + " TEXT," + CUSTOMER_LAST_NAME + " TEXT," + CUSTOMER_STREET + " TEXT," + CUSTOMER_CITY + " TEXT," + CUSTOMER_ZIP + " TEXT,"
+                + CUSTOMER_STATE + " TEXT," + CUSTOMER_PHONE1 + " TEXT,"+ CUSTOMER_NOTES + " TEXT" + ")";
+
 
         db.execSQL(CREATE_PRODUCTS_TABLE);
         db.execSQL(CREATE_CUSTOMER_TABLE);
         db.execSQL(CREATE_ITEMS_TABLE);
+
+
     }
 
     // look this one up
@@ -84,8 +87,8 @@ public class Database extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
         values.put(ITEM_NAME, item.getItemName());
-        values.put(ITEM_RATE, item.getItemQuantity());
-
+        values.put(ITEM_RATE, item.getItemRate());
+        Log.d("adding: ", "inserting...");
         SQLiteDatabase db = this.getWritableDatabase();
 
         db.insert(TABLE_ITEM, null, values);
@@ -123,7 +126,7 @@ public class Database extends SQLiteOpenHelper {
             cursor.moveToFirst();
             item.setItemId(Integer.parseInt(cursor.getString(0)));
             item.setItemName(cursor.getString(1));
-            item.setItemQuantity(Integer.parseInt(cursor.getString(2)));
+            item.setItemRate(Integer.parseInt(cursor.getString(2)));
             cursor.close();
         } else {
             item = null;
@@ -147,7 +150,7 @@ public class Database extends SQLiteOpenHelper {
                 Item item = new Item();
                 item.setItemId(Integer.parseInt(cursor.getString(0)));
                 item.setItemName(cursor.getString(1));
-                item.setItemQuantity(Integer.parseInt(cursor.getString(2)));
+                item.setItemRate(Integer.parseInt(cursor.getString(2)));
                 itemList.add(item);
             }
             cursor.close();
