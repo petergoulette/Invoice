@@ -13,4 +13,6 @@
     <string name="_add_item">add</string>
     <string name="_update_item">update</string>
     <string name="_delete_item">delete</string>
+    <string name="_item_name_title">name:</string>
+    <string name="_item_rate_title">rate:</string>
 </resources>

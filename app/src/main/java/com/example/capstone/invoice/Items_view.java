@@ -2,39 +2,59 @@ package com.example.capstone.invoice;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ListView;
 
-public class Items_view extends AppCompatActivity {
+public class Items_view extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
 
     EditText IName;
     EditText IRate;
+    ListView itemListView;
+    ItemViewListAdapter itemViewAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_items_view);
+        Database dbHandler = new Database(this, null, null, 1);
 
         IName = (EditText) findViewById(R.id.itemName);
         IRate = (EditText) findViewById(R.id.itemRate);
+
+        // Access the ListView
+        itemListView = (ListView) findViewById(R.id.main_listview);
+        Log.d("itemListView:", "created");
+        // create a itemViewListAdapter for the ListView
+        itemViewAdapter = new ItemViewListAdapter(this, getLayoutInflater());
+        Log.d("itemViewAdapter:", "created");
+        // Set ListView to use the ArrayAdapter
+        itemListView.setAdapter(itemViewAdapter);
+        Log.d("itemsetAdapter:", "created");
+        itemViewAdapter.updateData(dbHandler.getItemList());
     }
 
     public void newItem (View view) {
 
        Database dbHandler = new Database(this, null, null, 1);
-        //IName.setText("ok");
-        //IRate.setText("10");
         int quantity =
                 Integer.parseInt(IRate.getText().toString());
         Item item =
                 new Item(IName.getText().toString(), quantity);
 
-        IRate.setText(Integer.toString(item.getItemRate()));
-
         dbHandler.addItem(item);
-        IName.setText(item.getItemName() + " added");
+        //ArrayList<Item> test = new ArrayList<Item>();
+        //test = dbHandler.getItemList();
+        IRate.setText("");
+        IName.setText("");
+
+
+        itemViewAdapter.updateData(dbHandler.getItemList());
+        Log.d("item updated", "ok");
     }
 
     @Override
@@ -57,5 +77,15 @@ public class Items_view extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View v) {
+
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
     }
 }

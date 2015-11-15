@@ -152,6 +152,7 @@ public class Database extends SQLiteOpenHelper {
                 item.setItemName(cursor.getString(1));
                 item.setItemRate(Integer.parseInt(cursor.getString(2)));
                 itemList.add(item);
+                cursor.moveToNext();
             }
             cursor.close();
         } else {
