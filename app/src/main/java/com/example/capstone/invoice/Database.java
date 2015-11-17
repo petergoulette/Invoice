@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class Database extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     private static final String DATABASE_NAME = "productDB.db";
 
     // db table constants for Item
@@ -156,7 +156,7 @@ public class Database extends SQLiteOpenHelper {
             }
             cursor.close();
         } else {
-            itemList = null;
+            //itemList = null; //creates a null pointer error
         }
         db.close();
         return itemList;

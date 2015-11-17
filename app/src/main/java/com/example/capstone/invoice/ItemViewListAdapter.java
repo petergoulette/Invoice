@@ -71,7 +71,7 @@ public class ItemViewListAdapter extends BaseAdapter{
             itemTitle = item.getItemName();
         }
 
-        rateTitle = Integer.toString(item.getItemRate());
+        rateTitle = Double.toString(item.getItemRate() * .01);
         // Send these Strings to the TextViews for display
         holder.titleNameView.setText(itemTitle);
         holder.titleRateView.setText(rateTitle);

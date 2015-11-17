@@ -40,21 +40,30 @@ public class Items_view extends AppCompatActivity implements View.OnClickListene
 
     public void newItem (View view) {
 
-       Database dbHandler = new Database(this, null, null, 1);
-        int quantity =
-                Integer.parseInt(IRate.getText().toString());
-        Item item =
-                new Item(IName.getText().toString(), quantity);
+            Database dbHandler = new Database(this, null, null, 1);
+        Item item;
+        int rate;
+        try {
+                rate =
+                        (int) (Double.parseDouble(IRate.getText().toString()) * 100);
+                item =
+                        new Item(IName.getText().toString(), rate);
+            if (item.getItemName().equals("")){Log.d("Empty Value", "no string");}
+            else {
+            dbHandler.addItem(item);
+            //ArrayList<Item> test = new ArrayList<Item>();
+            //test = dbHandler.getItemList();
+            IRate.setText("");
+            IName.setText("");
+            itemViewAdapter.updateData(dbHandler.getItemList());
+            Log.d("item updated", "ok");}
+            }catch (Exception e) {
+            Log.d("Empty Value", e.toString());
+        }
 
-        dbHandler.addItem(item);
-        //ArrayList<Item> test = new ArrayList<Item>();
-        //test = dbHandler.getItemList();
-        IRate.setText("");
-        IName.setText("");
 
 
-        itemViewAdapter.updateData(dbHandler.getItemList());
-        Log.d("item updated", "ok");
+
     }
 
     @Override
