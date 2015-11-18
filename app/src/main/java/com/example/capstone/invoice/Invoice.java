@@ -1,37 +1,62 @@
 package com.example.capstone.invoice;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+/**
+ * Created by Pierro on 11/17/2015.
+ */
+public class Invoice {
+    private int InvoiceID;
+    private int CustomerID;
+    private int InvoiceItemID;
+    private String InvoiceDate;
+    private String InvoiceNotes;
 
-public class Invoice extends AppCompatActivity {
+    public Invoice(){}
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_invoice);
+    public Invoice(int invoiceID, int customerID, int invoiceItemID, String invoiceDate, String invoiceNotes) {
+        InvoiceID = invoiceID;
+        CustomerID = customerID;
+        InvoiceItemID = invoiceItemID;
+        InvoiceDate = invoiceDate;
+        InvoiceNotes = invoiceNotes;
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_invoice, menu);
-        return true;
+    public int getInvoiceID() {
+        return InvoiceID;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+    public void setInvoiceID(int invoiceID) {
+        InvoiceID = invoiceID;
+    }
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+    public int getCustomerID() {
+        return CustomerID;
+    }
 
-        return super.onOptionsItemSelected(item);
+    public void setCustomerID(int customerID) {
+        CustomerID = customerID;
+    }
+
+    public int getInvoiceItemID() {
+        return InvoiceItemID;
+    }
+
+    public void setInvoiceItemID(int invoiceItemID) {
+        InvoiceItemID = invoiceItemID;
+    }
+
+    public String getInvoiceDate() {
+        return InvoiceDate;
+    }
+
+    public void setInvoiceDate(String invoiceDate) {
+        InvoiceDate = invoiceDate;
+    }
+
+    public String getInvoiceNotes() {
+        return InvoiceNotes;
+    }
+
+    public void setInvoiceNotes(String invoiceNotes) {
+        InvoiceNotes = invoiceNotes;
     }
 }

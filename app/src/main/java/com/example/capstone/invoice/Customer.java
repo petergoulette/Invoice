@@ -15,6 +15,8 @@ public class Customer {
     private String CustomerState;
     private String CustomerZip;
 
+    public Customer (){}
+
     // Constructor with id to build from database
     public Customer (int CustomerID, String Fname, String Lname, String Phone, String Email, String Notes,
                      String Street, String City, String State, String Zip){

@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
         invoice.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, Invoice.class));
+                startActivity(new Intent(MainActivity.this, Invoice_view.class));
             }
         });
 

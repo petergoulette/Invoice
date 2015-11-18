@@ -17,8 +17,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Invoice"
-            android:label="@string/title_activity_invoice" >
+            android:name=".Invoice_view"
+            android:label="@string/title_activity_invoice_view" >
         </activity>
         <activity
             android:name=".Search"

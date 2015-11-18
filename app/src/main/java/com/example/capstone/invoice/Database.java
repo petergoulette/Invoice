@@ -113,6 +113,35 @@ public class Database extends SQLiteOpenHelper {
         db.close();
     }
 
+    public Customer findCustomer(String customerName){
+        String query = "Select * FROM " + TABLE_CUSTOMER + " WHERE " + CUSTOMER_LAST_NAME + " =  \"" + customerName + "\"";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor cursor = db.rawQuery(query, null);
+
+        Customer cust = new Customer();
+
+        if (cursor.moveToFirst()) {
+            cursor.moveToFirst();
+            cust.setCustomerID(Integer.parseInt(cursor.getString(0)));
+            cust.setCustomerFirstName(cursor.getString(1));
+            cust.setCustomerLastName(cursor.getString(2));
+            cust.setCustomerPhone(cursor.getString(3));
+            cust.setCustomerStreet(cursor.getString(4));
+            cust.setCustomerCity(cursor.getString(5));
+            cust.setCustomerZip(cursor.getString(6));
+            cust.setCustomerState(cursor.getString(7));
+            cust.setCustomerNotes(cursor.getString(8));
+            cursor.close();
+        } else {
+            cust = null;
+        }
+        db.close();
+
+        return cust;
+    }
+
     public Item findItem(String itemname) {
         String query = "Select * FROM " + TABLE_ITEM + " WHERE " + ITEM_NAME + " =  \"" + itemname + "\"";
 

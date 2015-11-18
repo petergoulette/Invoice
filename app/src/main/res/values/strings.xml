@@ -5,7 +5,7 @@
     <string name="btn_3">Search</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_invoice">Invoice</string>
+    <string name="title_activity_invoice_view">Invoice</string>
     <string name="title_activity_search">Search</string>
     <string name="title_activity_items_view">Items_view</string>
     <string name="_item_name">Item Name</string>
@@ -15,4 +15,17 @@
     <string name="_delete_item">delete</string>
     <string name="_item_name_title">name:</string>
     <string name="_item_rate_title">rate:</string>
+
+    <string name="_add_customer">add</string>
+
+    <string name="_Const_First_Name">First Name: </string>
+    <string name="_Const_Last_Name">Last Name: </string>
+    <string name="_Const_Address">Address: </string>
+    <string name="_Const_Street">Street: </string>
+    <string name="_Const_City">City: </string>
+    <string name="_Const_State">State: </string>
+    <string name="_Const_Zip">Zip: </string>
+    <string name="_Const_Notes">Notes: </string>
+    <string name="_Const_Phone">Phone: </string>
+    <string name="_Const_Email">Email: </string>
 </resources>

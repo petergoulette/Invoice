@@ -1,9 +1,11 @@
 package com.example.capstone.invoice;
 
+import java.util.Comparator;
+
 /**
  * Created by Pierro on 10/29/2015.
  */
-public class Item {
+public class Item implements Comparable<Item>{
 
     private int itemId;
     private String itemName;
@@ -45,4 +47,28 @@ public class Item {
     public void setItemRate(int itemRate) {
         this.itemRate = itemRate;
     }
+
+    @Override
+    public int compareTo(Item another) {
+
+        int compareQuantity = ((Item) another).getItemRate();
+        return this.itemRate - compareQuantity;
+    }
+
+    public static Comparator<Item> ItemNameComparator
+            = new Comparator<Item>() {
+
+        public int compare(Item item1, Item item2) {
+
+            String itemName1 = item1.getItemName().toUpperCase();
+            String itemName2 = item2.getItemName().toUpperCase();
+
+            //ascending order
+            return itemName1.compareTo(itemName2);
+
+            //descending order
+            //return fruitName2.compareTo(fruitName1);
+        }
+    };
 }
+
