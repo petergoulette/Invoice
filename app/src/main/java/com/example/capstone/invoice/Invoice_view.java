@@ -8,8 +8,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
+import java.util.ArrayList;
+
 public class Invoice_view extends AppCompatActivity {
     Customer customer;
+    Invoice invoice;
     EditText CFirstName;
     EditText CLastName;
     EditText CStreet;
@@ -17,6 +20,7 @@ public class Invoice_view extends AppCompatActivity {
     EditText CState;
     EditText CZip;
     EditText CPhone;
+    EditText CustID;
     //EditText CEmail;
     EditText CNotes;
     Database dbHandler;
@@ -26,8 +30,13 @@ public class Invoice_view extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invoice_view);
         dbHandler = new Database(this, null, null, 1);
-
+        invoice = new Invoice();
         customer = new Customer();
+        dbHandler.addInvoice(invoice);
+        ArrayList<Invoice> ai = new ArrayList<>();
+        ai = dbHandler.getInvoiceList();
+        invoice = dbHandler.getLastInvoice();
+        Log.d("Test Value of ID", invoice.getInvoiceID()+"");
         //attach edittext to customer fields
         CFirstName = (EditText) findViewById(R.id.FirstNameText);
         CLastName = (EditText) findViewById(R.id.LastNameText);
@@ -38,6 +47,7 @@ public class Invoice_view extends AppCompatActivity {
         CPhone = (EditText) findViewById(R.id.PhoneText);
         //CEmail = (EditText) findViewById(R.id.EmailText);
         CNotes = (EditText) findViewById(R.id.NotesText);
+        CustID = (EditText) findViewById(R.id.CustIDText);
     }
 
     public void addInvoiceCustomer (View view) {
@@ -60,10 +70,15 @@ public class Invoice_view extends AppCompatActivity {
         }
 
         dbHandler.addCustomer(customer);
+        customer = dbHandler.getLastCustomer();
+        Log.d("Value of last ID", customer.getCustomerID() + "");
         customer = dbHandler.findCustomer("Peter");
+        if(customer == null){
+            Log.d("no customer", "");
+        } else {
 
         Log.d("Test Value of ID", customer.getCustomerID()+"");
-
+        }
     }
 
 

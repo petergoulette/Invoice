@@ -28,4 +28,5 @@
     <string name="_Const_Notes">Notes: </string>
     <string name="_Const_Phone">Phone: </string>
     <string name="_Const_Email">Email: </string>
+    <string name="_Const_Cust_ID">Cust_ID: </string>
 </resources>

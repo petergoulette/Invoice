@@ -6,7 +6,6 @@ package com.example.capstone.invoice;
 public class Invoice {
     private int InvoiceID;
     private int CustomerID;
-    private int InvoiceItemID;
     private String InvoiceDate;
     private String InvoiceNotes;
 
@@ -15,7 +14,6 @@ public class Invoice {
     public Invoice(int invoiceID, int customerID, int invoiceItemID, String invoiceDate, String invoiceNotes) {
         InvoiceID = invoiceID;
         CustomerID = customerID;
-        InvoiceItemID = invoiceItemID;
         InvoiceDate = invoiceDate;
         InvoiceNotes = invoiceNotes;
     }
@@ -36,13 +34,7 @@ public class Invoice {
         CustomerID = customerID;
     }
 
-    public int getInvoiceItemID() {
-        return InvoiceItemID;
-    }
 
-    public void setInvoiceItemID(int invoiceItemID) {
-        InvoiceItemID = invoiceItemID;
-    }
 
     public String getInvoiceDate() {
         return InvoiceDate;
