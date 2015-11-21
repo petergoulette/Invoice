@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class Invoice_view extends AppCompatActivity {
     Customer customer;
@@ -21,7 +22,8 @@ public class Invoice_view extends AppCompatActivity {
     EditText CZip;
     EditText CPhone;
     EditText CustID;
-    //EditText CEmail;
+    EditText InvoiceDate;
+    EditText InvoiceID;
     EditText CNotes;
     Database dbHandler;
 
@@ -32,11 +34,21 @@ public class Invoice_view extends AppCompatActivity {
         dbHandler = new Database(this, null, null, 1);
         invoice = new Invoice();
         customer = new Customer();
-        dbHandler.addInvoice(invoice);
+        dbHandler.addInvoice(invoice); // create new invoice and input in database to assign invoice ID
         ArrayList<Invoice> ai = new ArrayList<>();
         ai = dbHandler.getInvoiceList();
-        invoice = dbHandler.getLastInvoice();
+        invoice = dbHandler.getLastInvoice(); // collect invoice and assign invoice ID
+
         Log.d("Test Value of ID", invoice.getInvoiceID()+"");
+
+        // attach text to invoice fields
+        InvoiceDate = (EditText) findViewById(R.id.DateText);
+        InvoiceID = (EditText) findViewById(R.id.InvoiceIDText);
+        InvoiceID.setText(Integer.toString(invoice.getInvoiceID()));
+
+
+        GetDate();
+
         //attach edittext to customer fields
         CFirstName = (EditText) findViewById(R.id.FirstNameText);
         CLastName = (EditText) findViewById(R.id.LastNameText);
@@ -47,7 +59,7 @@ public class Invoice_view extends AppCompatActivity {
         CPhone = (EditText) findViewById(R.id.PhoneText);
         //CEmail = (EditText) findViewById(R.id.EmailText);
         CNotes = (EditText) findViewById(R.id.NotesText);
-        CustID = (EditText) findViewById(R.id.CustIDText);
+        //CustID = (EditText) findViewById(R.id.CustIDText);
     }
 
     public void addInvoiceCustomer (View view) {
@@ -102,5 +114,16 @@ public class Invoice_view extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void GetDate(){
+
+        final Calendar cal = Calendar.getInstance();
+        int dd = cal.get(Calendar.DAY_OF_MONTH);
+        int mm = cal.get(Calendar.MONTH);
+        int yy = cal.get(Calendar.YEAR);
+// set current date into textview
+        InvoiceDate.setText(new StringBuilder().append(mm + 1).append("").append("-").append(dd).append("-").append(yy));
+
     }
 }
