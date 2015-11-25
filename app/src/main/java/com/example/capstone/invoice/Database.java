@@ -229,6 +229,39 @@ public class Database extends SQLiteOpenHelper {
         db.close();
     }
 
+    public boolean updateInvoice(Invoice invoice) {
+
+        ContentValues values = new ContentValues();
+        values.put(INVOICE_CUSTOMER_ID, invoice.getCustomerID());
+        values.put(INVOICE_DATE, invoice.getInvoiceDate());
+        values.put(INVOICE_NOTES, invoice.getInvoiceNotes());
+        Log.d("adding: ", "inserting...");
+        SQLiteDatabase db = this.getWritableDatabase();
+        boolean result = db.update(TABLE_INVOICE, values, INVOICE_ID + "=" + invoice.getInvoiceID() ,null) > 0;
+        db.close();
+        return result;
+    }
+
+    public boolean updateCustomer(Customer customer) {
+        ContentValues values = new ContentValues();
+        values.put(CUSTOMER_FIRST_NAME, customer.getCustomerFirstName());
+        values.put(CUSTOMER_LAST_NAME, customer.getCustomerLastName());
+        values.put(CUSTOMER_PHONE1, customer.getCustomerPhone());
+        values.put(CUSTOMER_STREET, customer.getCustomerStreet());
+        values.put(CUSTOMER_CITY, customer.getCustomerCity());
+        values.put(CUSTOMER_ZIP, customer.getCustomerZip());
+        values.put(CUSTOMER_STATE, customer.getCustomerState());
+        values.put(CUSTOMER_NOTES, customer.getCustomerNotes());
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        boolean result = db.update(TABLE_CUSTOMER, values, CUSTOMER_ID + "=" + customer.getCustomerID() ,null) > 0;
+        db.close();
+        return result;
+    }
+
+
+
     // use this method to find invoice by customer id
     public Invoice findInvoice(int custid) {
         String query = "Select * FROM " + TABLE_INVOICE + " WHERE " + INVOICE_CUSTOMER_ID + " =  \"" + custid + "\"";

@@ -54,10 +54,24 @@ public class Invoice_view extends AppCompatActivity implements View.OnClickListe
         dbHandler = new Database(this, null, null, 1);
         invoice = new Invoice();
         customer = new Customer();
-        dbHandler.addInvoice(invoice); // create new invoice and input in database to assign invoice ID
-        ArrayList<Invoice> ai = new ArrayList<>();
-        ai = dbHandler.getInvoiceList();
-        invoice = dbHandler.getLastInvoice(); // collect invoice and assign invoice ID
+
+        Intent intentExtras = getIntent();
+        Bundle extrasBundle = intentExtras.getExtras();
+        if (extrasBundle != null){
+            Log.d("bundle", "");
+            //we have a bundle
+            invoice.setInvoiceID(extrasBundle.getInt("SendInvoiceID"));
+            Log.d("bundle", "" + invoice.getInvoiceID());
+            invoice = dbHandler.getInvoice(invoice.getInvoiceID());
+            //IRate.setText(Integer.toString(invoiceId));
+        } else {
+
+            dbHandler.addInvoice(invoice); // create new invoice and input in database to assign invoice ID
+            invoice = dbHandler.getLastInvoice(); // collect invoice and assign invoice ID
+
+        }
+
+
 
         Button _AddInvoiceItem = (Button) findViewById(R.id.ConstaddInvoiceItem);
 
@@ -70,7 +84,7 @@ public class Invoice_view extends AppCompatActivity implements View.OnClickListe
         // Access the ListView
         invoiceItemListView = (ListView) findViewById(R.id.FInvoice_Item_listview);
 
-        // test for list view scrolling fix
+        // shuts off scrolling within the main view during the list view
         invoiceItemListView.setOnTouchListener(new ListView.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -104,6 +118,8 @@ public class Invoice_view extends AppCompatActivity implements View.OnClickListe
         invoiceItemViewAdapter.updateData(dbHandler.getInvoiceItemList(invoice.getInvoiceID()));
         invoiceItemListView.setOnItemClickListener(this);
 
+        // method adds invoice items to the invoice
+        // calls view that allows for items to be added and passes the invoiceID
         _AddInvoiceItem.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intentBundle = new Intent(Invoice_view.this, AddInvoiceItemView.class);
@@ -121,19 +137,23 @@ public class Invoice_view extends AppCompatActivity implements View.OnClickListe
     public void addInvoiceCustomer (View view) {
 
         try{
-            Log.d("Test Value of ID", customer.getCustomerID()+"");
-            Log.d("Test Value of ID", customer.getCustomerFirstName()+"");
+
             if (customer.getCustomerID() == 0) {
                 setCustomerObject();
+                dbHandler.addCustomer(customer);
+                customer = dbHandler.getLastCustomer();
+                Log.d("tag cust", "initial customer got added");
+            }else{
+                setCustomerObject();
+                boolean result = dbHandler.updateCustomer(customer);
+                Log.d("tag cust", "result of updateCustomer = " + result);
             }
         }
         catch (Exception e){
         }
 
-        dbHandler.addCustomer(customer);
-        customer = dbHandler.getLastCustomer();
         Log.d("Value of last ID", customer.getCustomerID() + "");
-        customer = dbHandler.findCustomer("Peter");
+
         if(customer == null){
             Log.d("no customer", "");
         } else {
@@ -165,6 +185,14 @@ public class Invoice_view extends AppCompatActivity implements View.OnClickListe
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void AddInvoice(View v){
+
+        addInvoiceCustomer(v);
+        setInvoiceObject();
+        dbHandler.updateInvoice(invoice);
+        finish();
     }
 
     @Override
@@ -243,6 +271,11 @@ public class Invoice_view extends AppCompatActivity implements View.OnClickListe
         customer.setCustomerPhone(CPhone.getText().toString());
         customer.setCustomerNotes(CNotes.getText().toString());
         customer.setCustomerCity(CCity.getText().toString());
+    }
+
+    private void setInvoiceObject(){
+        invoice.setInvoiceDate(InvoiceDate.getText().toString());
+        invoice.setCustomerID(customer.getCustomerID());
     }
 
     private void editTextHolder(){

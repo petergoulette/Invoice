@@ -253,6 +253,16 @@
             android:id="@+id/ConstaddInvoiceItem"
             />
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="@string/_Refresh"
+            android:id="@+id/Refresh"
+            android:onClick="refresh"
+            />
+
+
    </LinearLayout>
     <ListView
         android:id="@+id/FInvoice_Item_listview"
@@ -477,7 +487,7 @@
              android:layout_height="wrap_content"
              android:text="Add invoice"
              android:id="@+id/ConstaddInvoiceButton"
-             android:onClick="refresh"
+             android:onClick="AddInvoice"
              />
 
      </LinearLayout>
