@@ -82,15 +82,15 @@ public class AddInvoiceItemView extends AppCompatActivity implements View.OnClic
             try {
                 rate =(int) (Double.parseDouble(IRate.getText().toString()) * 100);
                 QF = (int) (Integer.parseInt(QFront.getText().toString()));
-                QB = (int) (Integer.parseInt(QFront.getText().toString()));
-                QL = (int) (Integer.parseInt(QFront.getText().toString()));
-                QR = (int) (Integer.parseInt(QFront.getText().toString()));
+                QB = (int) (Integer.parseInt(QBack.getText().toString()));
+                QL = (int) (Integer.parseInt(QLeft.getText().toString()));
+                QR = (int) (Integer.parseInt(QRight.getText().toString()));
 
                 iitem = new InvoiceItem(invoiceId, IName.getText().toString(), rate, QF, QB, QL, QR);
 
                     dbHandler.addInvoiceItem(iitem);
 
-                ResetTextField();
+                //ResetTextField();
 
 
                     //itemViewAdapter.updateData(dbHandler.getItemList());

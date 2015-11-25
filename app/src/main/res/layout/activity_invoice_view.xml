@@ -260,6 +260,14 @@
         android:layout_height="200dp"
 
         android:layout_marginTop="2dp"></ListView>
+     <View
+         android:layout_marginTop="5dp"
+         android:layout_marginLeft="10dp"
+         android:layout_marginRight="10dp"
+         android:layout_marginBottom="5dp"
+         android:layout_width="match_parent"
+         android:layout_height="1dp"
+         android:background="@android:color/darker_gray"/>
 
      <LinearLayout
          android:orientation="horizontal"
@@ -268,17 +276,212 @@
          android:layout_gravity="center_horizontal"
          android:layout_margin="10dp">
 
+         <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
 
+             android:text="Allow Total"
+             android:id="@+id/ConstAllowTotal" />
+         <CheckBox
+             android:layout_width="wrap_content"
+             android:layout_marginLeft="1dp"
+             android:layout_height="wrap_content"
+             android:id="@+id/CheckFront"
+             android:text="@string/F_item_Quantity"/>
+         <CheckBox
+             android:layout_width="wrap_content"
+             android:layout_marginLeft="1dp"
+             android:layout_height="wrap_content"
+             android:id="@+id/CheckBack"
+             android:text="@string/B_item_Quantity"/>
+         <CheckBox
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginLeft="1dp"
+             android:id="@+id/CheckLeft"
+             android:text="@string/L_item_Quantity"/>
+         <CheckBox
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginLeft="1dp"
+             android:id="@+id/CheckRight"
+             android:text="@string/R_item_Quantity"/>
+     </LinearLayout>
+
+     <RelativeLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content">
+         <TextView
+             android:id="@+id/ConstFTotal"
+             android:layout_width="wrap_content"
+             android:text="@string/Total"
+             android:layout_height="wrap_content"
+             android:layout_marginLeft="10dp"
+             android:layout_alignParentLeft="true"
+             />
+
+         <TextView
+             android:id="@+id/FTotal"
+             android:layout_width="wrap_content"
+             android:text="@string/F"
+             android:layout_height="wrap_content"
+             android:layout_marginLeft="10dp"
+             android:layout_toRightOf="@+id/ConstFTotal"
+             />
+         <TextView
+             android:id="@+id/FTotalValue"
+             android:layout_width="wrap_content"
+             android:text="$1000.00"
+             android:ems="5"
+             android:layout_height="wrap_content"
+             android:layout_marginLeft="10dp"
+             android:layout_toRightOf="@+id/FTotal"
+             />
+
+
+     </RelativeLayout>
+     <RelativeLayout
+     android:layout_marginTop="2dp"
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content">
+     <TextView
+         android:id="@+id/ConstBTotal"
+         android:layout_width="wrap_content"
+         android:text="@string/Total"
+         android:layout_height="wrap_content"
+         android:layout_marginLeft="10dp"
+         android:layout_alignParentLeft="true"
+         />
+
+     <TextView
+         android:id="@+id/BTotal"
+         android:layout_width="wrap_content"
+         android:text="@string/B"
+         android:layout_height="wrap_content"
+         android:layout_marginLeft="10dp"
+         android:layout_toRightOf="@+id/ConstBTotal"
+         />
+     <TextView
+         android:id="@+id/BTotalValue"
+         android:layout_width="wrap_content"
+         android:text="$1000.00"
+         android:ems="5"
+         android:layout_height="wrap_content"
+         android:layout_marginLeft="10dp"
+         android:layout_toRightOf="@+id/BTotal"
+         />
+ </RelativeLayout>
+     <RelativeLayout
+         android:layout_marginTop="2dp"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content">
+         <TextView
+             android:id="@+id/ConstLTotal"
+             android:layout_width="wrap_content"
+             android:text="@string/Total"
+             android:layout_height="wrap_content"
+             android:layout_marginLeft="10dp"
+             android:layout_alignParentLeft="true"
+             />
+
+         <TextView
+             android:id="@+id/LTotal"
+             android:layout_width="wrap_content"
+             android:text="@string/L"
+             android:layout_height="wrap_content"
+             android:layout_marginLeft="10dp"
+             android:layout_toRightOf="@+id/ConstLTotal"
+             />
+         <TextView
+             android:id="@+id/LTotalValue"
+             android:layout_width="wrap_content"
+             android:text="$1000.00"
+             android:ems="5"
+             android:layout_height="wrap_content"
+             android:layout_marginLeft="10dp"
+             android:layout_toRightOf="@+id/LTotal"
+             />
+     </RelativeLayout>
+     <RelativeLayout
+         android:layout_marginTop="2dp"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content">
+     <TextView
+         android:id="@+id/ConstRTotal"
+         android:layout_width="wrap_content"
+         android:text="@string/Total"
+         android:layout_height="wrap_content"
+         android:layout_marginLeft="10dp"
+         android:layout_alignParentLeft="true"
+         />
+
+     <TextView
+         android:id="@+id/RTotal"
+         android:layout_width="wrap_content"
+         android:text="@string/R"
+         android:layout_height="wrap_content"
+         android:layout_marginLeft="10dp"
+         android:layout_toRightOf="@+id/ConstRTotal"
+         />
+     <TextView
+         android:id="@+id/RTotalValue"
+         android:layout_width="wrap_content"
+         android:text="$1000.00"
+         android:ems="5"
+         android:layout_height="wrap_content"
+         android:layout_marginLeft="10dp"
+         android:layout_toRightOf="@+id/RTotal"
+         />
+     </RelativeLayout>
+     <View
+         android:layout_marginTop="5dp"
+         android:layout_marginLeft="10dp"
+         android:layout_marginRight="10dp"
+         android:layout_marginBottom="5dp"
+         android:layout_width="match_parent"
+         android:layout_height="1dp"
+         android:background="@android:color/darker_gray"/>
+
+     <RelativeLayout
+         android:layout_marginTop="2dp"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content">
+         <TextView
+             android:id="@+id/ConstTotal"
+             android:layout_width="wrap_content"
+             android:text="@string/Total"
+             android:layout_height="wrap_content"
+             android:layout_marginLeft="10dp"
+             android:layout_alignParentLeft="true"
+             />
+
+         <TextView
+             android:id="@+id/FinalTotal"
+             android:layout_width="wrap_content"
+             android:text="$2300.00"
+             android:layout_height="wrap_content"
+             android:layout_marginLeft="10dp"
+             android:layout_toRightOf="@+id/ConstTotal"
+             />
+
+     </RelativeLayout>
+     <LinearLayout
+         android:orientation="horizontal"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_gravity="center_horizontal"
+         android:layout_margin="10dp">
 
          <Button
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
-             android:text="Add invoice item"
+             android:text="Add invoice"
              android:id="@+id/ConstaddInvoiceButton"
              android:onClick="refresh"
              />
 
      </LinearLayout>
+
 
      </LinearLayout>
 </ScrollView>

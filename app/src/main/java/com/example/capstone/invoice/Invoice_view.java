@@ -10,8 +10,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -33,6 +35,17 @@ public class Invoice_view extends AppCompatActivity implements View.OnClickListe
     private Database dbHandler;
     private ListView invoiceItemListView;
     private InvoiceItemViewListAdapter invoiceItemViewAdapter;
+    private CheckBox FCheck;
+    private CheckBox BCheck;
+    private CheckBox LCheck;
+    private CheckBox RCheck;
+    private TextView fTotal;
+    private TextView bTotal;
+    private TextView rTotal;
+    private TextView lTotal;
+    private TextView finalTotal;
+    private ArrayList<InvoiceItem> IItemList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +114,8 @@ public class Invoice_view extends AppCompatActivity implements View.OnClickListe
                 startActivityForResult(intentBundle, 1);
             }
         });
+
+
     }
 
     public void addInvoiceCustomer (View view) {
@@ -154,7 +169,38 @@ public class Invoice_view extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
+        int sumB, sumF, sumL, sumR, sumTotal;
 
+        if(BCheck.isChecked()){
+            sumB = getSideSum("B");
+            bTotal.setText(Integer.toString(sumB));
+
+        }else {
+            bTotal.setText(Integer.toString(sumB=0));}
+
+        if(FCheck.isChecked()){
+            sumF = getSideSum("F");
+            fTotal.setText(Integer.toString(sumF));
+
+        }else {
+            fTotal.setText(Integer.toString(sumF = 0));}
+
+        if(LCheck.isChecked()){
+            sumL = getSideSum("L");
+            lTotal.setText(Integer.toString(sumL));
+
+        }else {
+            lTotal.setText(Integer.toString(sumL = 0));}
+
+        if(RCheck.isChecked()){
+            sumR = getSideSum("R");
+            rTotal.setText(Integer.toString(sumR));
+
+        }else {
+            rTotal.setText(Integer.toString(sumR = 0));}
+        sumTotal = sumB + sumF + sumL + sumR;
+
+        finalTotal.setText(Integer.toString(sumTotal));
     }
 
     @Override
@@ -216,6 +262,55 @@ public class Invoice_view extends AppCompatActivity implements View.OnClickListe
         //CEmail = (EditText) findViewById(R.id.EmailText);
         CNotes = (EditText) findViewById(R.id.NotesText);
         //CustID = (EditText) findViewById(R.id.CustIDText);
+
+        FCheck=(CheckBox)findViewById(R.id.CheckFront);
+        BCheck=(CheckBox)findViewById(R.id.CheckBack);
+        LCheck=(CheckBox)findViewById(R.id.CheckLeft);
+        RCheck=(CheckBox)findViewById(R.id.CheckRight);
+        fTotal=(TextView)findViewById(R.id.FTotalValue);
+        bTotal=(TextView)findViewById(R.id.BTotalValue);
+        rTotal=(TextView)findViewById(R.id.RTotalValue);
+        lTotal=(TextView)findViewById(R.id.LTotalValue);
+        finalTotal=(TextView)findViewById(R.id.FinalTotal);
+
+        FCheck.setOnClickListener(this);
+        BCheck.setOnClickListener(this);
+        LCheck.setOnClickListener(this);
+        RCheck.setOnClickListener(this);
+
+
+    }
+
+    private int getSideSum(String Side){
+        int sum=0;
+        IItemList = dbHandler.getInvoiceItemList(invoice.getInvoiceID());
+        InvoiceItem temp;
+
+        if(Side.equals("F")) {
+            for (int i = 0; i < IItemList.size(); i++) {
+                temp = IItemList.get(i);
+                sum += temp.getInvoiceItemFQuantity() * temp.getInvoiceItemRate();
+            }
+        }
+        if(Side.equals("B")) {
+            for (int i = 0; i < IItemList.size(); i++) {
+                temp = IItemList.get(i);
+                sum += temp.getInvoiceItemBQuantity() * temp.getInvoiceItemRate();
+            }
+        }
+        if(Side.equals("L")) {
+            for (int i = 0; i < IItemList.size(); i++) {
+                temp = IItemList.get(i);
+                sum += temp.getInvoiceItemLQuantity() * temp.getInvoiceItemRate();
+            }
+        }
+        if(Side.equals("R")) {
+            for (int i = 0; i < IItemList.size(); i++) {
+                temp = IItemList.get(i);
+                sum += temp.getInvoiceItemRQuantity() * temp.getInvoiceItemRate();
+            }
+        }
+        return sum;
     }
 
     public void refresh(View view){
