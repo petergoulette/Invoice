@@ -1,8 +1,10 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="match_parent">
+ <LinearLayout    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     tools:context="com.example.capstone.invoice.Invoice">
 
 
@@ -235,4 +237,48 @@
         android:layout_height="1dp"
         android:background="@android:color/darker_gray"/>
 
-</LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="10dp">
+
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/_Add_Invoice_Item"
+            android:id="@+id/ConstaddInvoiceItem"
+            />
+
+   </LinearLayout>
+    <ListView
+        android:id="@+id/FInvoice_Item_listview"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+
+        android:layout_marginTop="2dp"></ListView>
+
+     <LinearLayout
+         android:orientation="horizontal"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_gravity="center_horizontal"
+         android:layout_margin="10dp">
+
+
+
+         <Button
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="Add invoice item"
+             android:id="@+id/ConstaddInvoiceButton"
+             android:onClick="refresh"
+             />
+
+     </LinearLayout>
+
+     </LinearLayout>
+</ScrollView>

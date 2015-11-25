@@ -13,18 +13,17 @@ import java.util.ArrayList;
 /**
  * Created by Pierro on 11/14/2015.
  */
-public class ItemViewListAdapter extends BaseAdapter{
+public class AddInvoiceItemViewListAdapter extends BaseAdapter{
 
     Context mContext;
     LayoutInflater mInflater;
     ArrayList<Item> itemAList;
 
-    public ItemViewListAdapter(Context context, LayoutInflater inflater) {
+    public AddInvoiceItemViewListAdapter(Context context, LayoutInflater inflater) {
         mContext = context;
         mInflater = inflater;
         itemAList = new ArrayList();
     }
-
 
     @Override
     public int getCount() {

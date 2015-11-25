@@ -13,27 +13,27 @@ import java.util.ArrayList;
 /**
  * Created by Pierro on 11/14/2015.
  */
-public class ItemViewListAdapter extends BaseAdapter{
+public class InvoiceItemViewListAdapter extends BaseAdapter{
 
     Context mContext;
     LayoutInflater mInflater;
-    ArrayList<Item> itemAList;
+    ArrayList<InvoiceItem> invoiceItemAList;
 
-    public ItemViewListAdapter(Context context, LayoutInflater inflater) {
+    public InvoiceItemViewListAdapter(Context context, LayoutInflater inflater) {
         mContext = context;
         mInflater = inflater;
-        itemAList = new ArrayList();
+        invoiceItemAList = new ArrayList();
     }
 
 
     @Override
     public int getCount() {
-        return itemAList.size();
+        return invoiceItemAList.size();
     }
 
     @Override
-    public Item getItem(int position) {
-        return itemAList.get(position);
+    public InvoiceItem getItem(int position) {
+        return invoiceItemAList.get(position);
     }
 
     @Override
@@ -46,12 +46,16 @@ public class ItemViewListAdapter extends BaseAdapter{
         ViewHolder holder;
         if (convertView == null){
             //Inflate the custom row layout from your XML.
-            convertView = mInflater.inflate(R.layout.item_list_view, null);
+            convertView = mInflater.inflate(R.layout.invoice_item_list_view, null);
 
             //create a "Holder" with subviews
             holder = new ViewHolder();
             holder.titleNameView = (TextView) convertView.findViewById(R.id.text_item_name);
             holder.titleRateView = (TextView) convertView.findViewById(R.id.text_item_rate);
+            holder.titleRightQuantity = (TextView) convertView.findViewById(R.id.text_InvoiceRQuantity);
+            holder.titleLeftQuantity = (TextView) convertView.findViewById(R.id.text_InvoiceLQuantity);
+            holder.titleFrontQuantity = (TextView) convertView.findViewById(R.id.text_InvoiceFQuantity);
+            holder.titleBackQuantity = (TextView) convertView.findViewById(R.id.text_InvoiceBQuantity);
 
             // hang on to this holder for future recyclage
             convertView.setTag(holder);
@@ -63,26 +67,38 @@ public class ItemViewListAdapter extends BaseAdapter{
 
         // Get the curent item
         Log.d("View positon:", "" + position);
-        Item item = getItem(position);
+        InvoiceItem Iitem = getItem(position);
 
         String itemTitle = "";
         String rateTitle = "";
+        String qFront ="";
+        String qBack ="";
+        String qLeft ="";
+        String qRight ="";
 
-        if (item.getItemName()!= null){
-            itemTitle = item.getItemName();
+        if (Iitem.getInvoiceItemName()!= null){
+            itemTitle = Iitem.getInvoiceItemName();
         }
 
-        rateTitle = Double.toString(item.getItemRate() * .01);
+        rateTitle = Double.toString(Iitem.getInvoiceItemRate() * .01);
+        qFront = Integer.toString(Iitem.getInvoiceItemFQuantity());
+        qBack = Integer.toString(Iitem.getInvoiceItemBQuantity());
+        qLeft = Integer.toString(Iitem.getInvoiceItemLQuantity());
+        qRight = Integer.toString(Iitem.getInvoiceItemRQuantity());
         // Send these Strings to the TextViews for display
         holder.titleNameView.setText(itemTitle);
         holder.titleRateView.setText(rateTitle);
+        holder.titleFrontQuantity.setText(qFront);
+        holder.titleBackQuantity.setText(qBack);
+        holder.titleLeftQuantity.setText(qLeft);
+        holder.titleRightQuantity.setText(qRight);
 
 
         return convertView;
     }
 
-    public void updateData(ArrayList<Item> aitem){
-        itemAList = aitem;
+    public void updateData(ArrayList<InvoiceItem> aitem){
+        invoiceItemAList = aitem;
         notifyDataSetChanged();
     }
     // this is used so you only ever have to do
@@ -90,5 +106,9 @@ public class ItemViewListAdapter extends BaseAdapter{
     private static class ViewHolder {
         public TextView titleNameView;
         public TextView titleRateView;
+        public TextView titleRightQuantity;
+        public TextView titleLeftQuantity;
+        public TextView titleFrontQuantity;
+        public TextView titleBackQuantity;
     }
 }

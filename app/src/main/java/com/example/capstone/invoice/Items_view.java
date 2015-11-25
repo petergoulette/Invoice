@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class Items_view extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
 
@@ -36,6 +37,7 @@ public class Items_view extends AppCompatActivity implements View.OnClickListene
         itemListView.setAdapter(itemViewAdapter);
         Log.d("itemsetAdapter:", "created");
         itemViewAdapter.updateData(dbHandler.getItemList());
+        itemListView.setOnItemClickListener(this);
     }
 
     public void newItem (View view) {
@@ -95,6 +97,6 @@ public class Items_view extends AppCompatActivity implements View.OnClickListene
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+        Toast.makeText(Items_view.this, "Clicked", Toast.LENGTH_SHORT).show();
     }
 }

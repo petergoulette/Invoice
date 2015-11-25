@@ -22,9 +22,20 @@ public class Database extends SQLiteOpenHelper {
     private static final String ITEM_NAME = "_itemName";
     private static final String ITEM_RATE = "_itemRate";
 
+    // db table constants for InvoiceItem
+    private static final String TABLE_INVOICE_ITEM = "InvoiceItemTABLE";
+    private static final String INVOICE_ITEM_ID = "_invoiceitemID";
+    private static final String INVOICE_L_ID = "Invoice_ID";
+    private static final String INVOICE_ITEM_NAME = "_invoiceitemName";
+    private static final String INVOICE_ITEM_RATE = "_invoiceitemRate";
+    private static final String INVOICE_FQUANTITY = "_FQuantity";
+    private static final String INVOICE_BQUANTITY = "_BQuantity";
+    private static final String INVOICE_LQUANTITY = "_LQuantity";
+    private static final String INVOICE_RQUANTITY = "_RQuantity";
+
     // db table constants for Invoice
     private static final String TABLE_INVOICE = "invoiceTABLE";
-    private static final String INVOICE_ID = "_itemID";
+    private static final String INVOICE_ID = "_Invoice_ID";
     private static final String INVOICE_DATE = "Date";
     private static final String INVOICE_NOTES = "Notes";
     private static final String INVOICE_CUSTOMER_ID = "CustID";
@@ -73,6 +84,12 @@ public class Database extends SQLiteOpenHelper {
                 + ITEM_ID + " INTEGER PRIMARY KEY," + ITEM_NAME
                 + " TEXT," + ITEM_RATE + " INTEGER" + ")";
 
+        String CREATE_INVOICE_ITEMS_TABLE = "CREATE TABLE " +
+                TABLE_INVOICE_ITEM + "("
+                + INVOICE_ITEM_ID + " INTEGER PRIMARY KEY," + INVOICE_ID + " INTEGER," + INVOICE_ITEM_NAME
+                + " TEXT," + INVOICE_ITEM_RATE + " INTEGER," + INVOICE_FQUANTITY + " INTEGER," + INVOICE_BQUANTITY + " INTEGER,"
+                + INVOICE_LQUANTITY + " INTEGER," + INVOICE_RQUANTITY + " INTEGER" + ")";
+
         String CREATE_CUSTOMER_TABLE = "CREATE TABLE " +
                 TABLE_CUSTOMER + "("
                 + CUSTOMER_ID + " INTEGER PRIMARY KEY," + CUSTOMER_FIRST_NAME
@@ -80,19 +97,93 @@ public class Database extends SQLiteOpenHelper {
                 + CUSTOMER_STATE + " TEXT," + CUSTOMER_PHONE1 + " TEXT,"+ CUSTOMER_NOTES + " TEXT" + ")";
 
         db.execSQL(CREATE_INVOICE_TABLE);
-        db.execSQL(CREATE_PRODUCTS_TABLE);
+        db.execSQL(CREATE_INVOICE_ITEMS_TABLE);
         db.execSQL(CREATE_CUSTOMER_TABLE);
         db.execSQL(CREATE_ITEMS_TABLE);
-
-
     }
 
-    // look this one up
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion,
                           int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PRODUCTS);
         onCreate(db);
+    }
+
+    public void addInvoiceItem(InvoiceItem invoiceitem) {
+
+        ContentValues values = new ContentValues();
+        values.put(INVOICE_ID, invoiceitem.getInvoiceId());
+        values.put(INVOICE_ITEM_NAME, invoiceitem.getInvoiceItemName());
+        values.put(INVOICE_ITEM_RATE, invoiceitem.getInvoiceItemRate());
+        values.put(INVOICE_FQUANTITY, invoiceitem.getInvoiceItemFQuantity());
+        values.put(INVOICE_BQUANTITY, invoiceitem.getInvoiceItemBQuantity());
+        values.put(INVOICE_LQUANTITY, invoiceitem.getInvoiceItemLQuantity());
+        values.put(INVOICE_RQUANTITY, invoiceitem.getInvoiceItemRQuantity());
+        Log.d("adding: ", "Invoice Item inserting...");
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        db.insert(TABLE_INVOICE_ITEM, null, values);
+        Log.d("adding: ", "Invoice Item inserted...");
+        db.close();
+    }
+
+    public InvoiceItem findInvoiceItem(String itemname) {
+        String query = "Select * FROM " + TABLE_INVOICE_ITEM + " WHERE " + INVOICE_ITEM_NAME + " =  \"" + itemname + "\"";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor cursor = db.rawQuery(query, null);
+
+        InvoiceItem invoiceitem = new InvoiceItem();
+
+        if (cursor.moveToFirst()) {
+            cursor.moveToFirst();
+            invoiceitem.setInvoiceItemId(Integer.parseInt(cursor.getString(0)));
+            invoiceitem.setInvoiceId(Integer.parseInt(cursor.getString(1)));
+            invoiceitem.setInvoiceItemName(cursor.getString(2));
+            invoiceitem.setInvoiceItemRate(Integer.parseInt(cursor.getString(3)));
+            invoiceitem.setInvoiceItemFQuantity(Integer.parseInt(cursor.getString(4)));
+            invoiceitem.setInvoiceItemBQuantity(Integer.parseInt(cursor.getString(5)));
+            invoiceitem.setInvoiceItemLQuantity(Integer.parseInt(cursor.getString(6)));
+            invoiceitem.setInvoiceItemRQuantity(Integer.parseInt(cursor.getString(7)));
+            cursor.close();
+        } else {
+            invoiceitem = null;
+        }
+        db.close();
+        return invoiceitem;
+    }
+
+    public ArrayList<InvoiceItem> getInvoiceItemList(int invoiceID) {
+        ArrayList<InvoiceItem> invoiceitemlist = new ArrayList<>();
+        String query = "Select * FROM " + TABLE_INVOICE_ITEM + " WHERE " + INVOICE_ID + " =  \"" + Integer.toString(invoiceID) + "\"";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor.moveToFirst()) {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()){
+                InvoiceItem invoiceitem = new InvoiceItem();
+                invoiceitem.setInvoiceItemId(Integer.parseInt(cursor.getString(0)));
+                invoiceitem.setInvoiceId(Integer.parseInt(cursor.getString(1)));
+                invoiceitem.setInvoiceItemName(cursor.getString(2));
+                invoiceitem.setInvoiceItemRate(Integer.parseInt(cursor.getString(3)));
+                invoiceitem.setInvoiceItemFQuantity(Integer.parseInt(cursor.getString(4)));
+                invoiceitem.setInvoiceItemBQuantity(Integer.parseInt(cursor.getString(5)));
+                invoiceitem.setInvoiceItemLQuantity(Integer.parseInt(cursor.getString(6)));
+                invoiceitem.setInvoiceItemRQuantity(Integer.parseInt(cursor.getString(7)));
+                invoiceitemlist.add(invoiceitem);
+                cursor.moveToNext();
+            }
+            cursor.close();
+        } else {
+            //invoiceitemlist = null; //creates a null pointer error
+        }
+        db.close();
+        return invoiceitemlist;
     }
 
     public void addItem(Item item) {

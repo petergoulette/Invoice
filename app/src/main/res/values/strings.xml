@@ -30,4 +30,14 @@
     <string name="_Const_Email">Email: </string>
     <string name="_Const_Cust_ID">Cust_ID: </string>
     <string name="_Const_Invoice_ID">Invoice # </string>
+    <string name="_Add_Invoice_Item">Add Invoice Item</string>
+    <string name="title_activity_add_invoice_item_view">AddInvoiceItemView</string>
+    <string name="F_item_Quantity">FT:</string>
+    <string name="B_item_Quantity">BK:</string>
+    <string name="L_item_Quantity">LT:</string>
+    <string name="R_item_Quantity">RT:</string>
+    <string name="Quantity">Quantity:</string>
+    <color name="lt_blue">#7f99ff</color>
+
+
 </resources>
