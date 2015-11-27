@@ -1,5 +1,6 @@
 package com.example.capstone.invoice;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -7,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -89,6 +91,13 @@ public class Search extends AppCompatActivity implements View.OnClickListener, A
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+        customerInvoice = SVLadapter.getItem(position);
+        Intent intentBundle = new Intent(Search.this, Invoice_view.class);
+        Bundle bundle = new Bundle();
+        bundle.putInt("SendInvoiceID", customerInvoice.getInvoiceID());
+        intentBundle.putExtras(bundle);
+        Toast.makeText(Search.this, "clicked", Toast.LENGTH_SHORT).show();
+        //startActivity(intentBundle);
+        startActivityForResult(intentBundle, 1);
     }
 }
