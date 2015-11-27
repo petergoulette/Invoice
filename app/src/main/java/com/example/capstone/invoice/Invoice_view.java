@@ -47,6 +47,9 @@ public class Invoice_view extends AppCompatActivity implements View.OnClickListe
     private ArrayList<InvoiceItem> IItemList;
 
 
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -248,6 +251,18 @@ public class Invoice_view extends AppCompatActivity implements View.OnClickListe
                 // Do something with the contact here (bigger example below)
             }
         }
+    }
+
+    @Override
+    protected void onResume(){
+        invoiceItemViewAdapter.updateData(dbHandler.getInvoiceItemList(invoice.getInvoiceID()));
+        super.onResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        if(customer.getCustomerID()== 0){dbHandler.deleteInvoice(invoice.getInvoiceID());}
+        super.onDestroy();
     }
 
 

@@ -418,6 +418,35 @@ public class Database extends SQLiteOpenHelper {
         return cust;
     }
 
+    public Customer getCustomer(int customerID){
+        String query = "Select * FROM " + TABLE_CUSTOMER + " WHERE " + CUSTOMER_ID + " =  \"" + customerID + "\"";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor cursor = db.rawQuery(query, null);
+
+        Customer cust = new Customer();
+
+        if (cursor.moveToFirst()) {
+            cursor.moveToFirst();
+            cust.setCustomerID(Integer.parseInt(cursor.getString(0)));
+            cust.setCustomerFirstName(cursor.getString(1));
+            cust.setCustomerLastName(cursor.getString(2));
+            cust.setCustomerPhone(cursor.getString(3));
+            cust.setCustomerStreet(cursor.getString(4));
+            cust.setCustomerCity(cursor.getString(5));
+            cust.setCustomerZip(cursor.getString(6));
+            cust.setCustomerState(cursor.getString(7));
+            cust.setCustomerNotes(cursor.getString(8));
+            cursor.close();
+        } else {
+            cust = null;
+        }
+        db.close();
+
+        return cust;
+    }
+
     public Item findItem(String itemname) {
         String query = "Select * FROM " + TABLE_ITEM + " WHERE " + ITEM_NAME + " =  \"" + itemname + "\"";
 
@@ -488,6 +517,14 @@ public class Database extends SQLiteOpenHelper {
         }
         db.close();
         return result;
+    }
+
+    public boolean deleteInvoice(int invoiceid) {
+
+        boolean result = false;
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(TABLE_INVOICE, INVOICE_ID + " = " + invoiceid, null) > 0;
+
     }
 
 }

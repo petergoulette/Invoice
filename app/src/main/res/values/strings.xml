@@ -42,6 +42,13 @@
     <string name="L">L</string>
     <string name="R">R</string>
     <string name="_Refresh">Refresh</string>
+    <string name="Date">Date:</string>
+
+    <!-- Search List View -->
+    <string name="InvoiceNum">IN#:</string>
+    <string name="InvoiceDate">Date:</string>
+    <string name="First">FN:</string>
+    <string name="Last">LN:</string>
 
     <string name="Quantity">Quantity:</string>
     <color name="lt_blue">#7f99ff</color>
