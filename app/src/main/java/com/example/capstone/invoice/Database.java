@@ -1,3 +1,19 @@
+/*
+ * Copyright (C) 2013 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.example.capstone.invoice;
 
 
@@ -7,10 +23,12 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-
 import java.util.ArrayList;
 
-
+/*
+ * Database is the database handler class that extends SQLiteOpenHelper and allows the application
+ * to manipulate data within the database.
+ */
 public class Database extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 2;
@@ -403,11 +421,11 @@ public class Database extends SQLiteOpenHelper {
             cust.setCustomerID(Integer.parseInt(cursor.getString(0)));
             cust.setCustomerFirstName(cursor.getString(1));
             cust.setCustomerLastName(cursor.getString(2));
-            cust.setCustomerPhone(cursor.getString(3));
-            cust.setCustomerStreet(cursor.getString(4));
-            cust.setCustomerCity(cursor.getString(5));
-            cust.setCustomerZip(cursor.getString(6));
-            cust.setCustomerState(cursor.getString(7));
+            cust.setCustomerStreet(cursor.getString(3));
+            cust.setCustomerCity(cursor.getString(4));
+            cust.setCustomerZip(cursor.getString(5));
+            cust.setCustomerState(cursor.getString(6));
+            cust.setCustomerPhone(cursor.getString(7));
             cust.setCustomerNotes(cursor.getString(8));
             cursor.close();
         } else {
@@ -432,11 +450,11 @@ public class Database extends SQLiteOpenHelper {
             cust.setCustomerID(Integer.parseInt(cursor.getString(0)));
             cust.setCustomerFirstName(cursor.getString(1));
             cust.setCustomerLastName(cursor.getString(2));
-            cust.setCustomerPhone(cursor.getString(3));
-            cust.setCustomerStreet(cursor.getString(4));
-            cust.setCustomerCity(cursor.getString(5));
-            cust.setCustomerZip(cursor.getString(6));
-            cust.setCustomerState(cursor.getString(7));
+            cust.setCustomerStreet(cursor.getString(3));
+            cust.setCustomerCity(cursor.getString(4));
+            cust.setCustomerZip(cursor.getString(5));
+            cust.setCustomerState(cursor.getString(6));
+            cust.setCustomerPhone(cursor.getString(7));
             cust.setCustomerNotes(cursor.getString(8));
             cursor.close();
         } else {
@@ -489,11 +507,11 @@ public class Database extends SQLiteOpenHelper {
             cust.setCustomerID(Integer.parseInt(cursor.getString(0)));
             cust.setCustomerFirstName(cursor.getString(1));
             cust.setCustomerLastName(cursor.getString(2));
-            cust.setCustomerPhone(cursor.getString(3));
-            cust.setCustomerStreet(cursor.getString(4));
-            cust.setCustomerCity(cursor.getString(5));
-            cust.setCustomerZip(cursor.getString(6));
-            cust.setCustomerState(cursor.getString(7));
+            cust.setCustomerStreet(cursor.getString(3));
+            cust.setCustomerCity(cursor.getString(4));
+            cust.setCustomerZip(cursor.getString(5));
+            cust.setCustomerState(cursor.getString(6));
+            cust.setCustomerPhone(cursor.getString(7));
             cust.setCustomerNotes(cursor.getString(8));
             cursor.close();
         } else {
@@ -578,7 +596,7 @@ public class Database extends SQLiteOpenHelper {
 
     public boolean deleteItem(int itemid) {
 
-        boolean result = false;
+        boolean result;
         SQLiteDatabase db = this.getWritableDatabase();
         result = db.delete(TABLE_ITEM, ITEM_ID + " = " + itemid, null) > 0;
         db.close();
@@ -588,7 +606,7 @@ public class Database extends SQLiteOpenHelper {
 
     public boolean deleteInvoiceItem(int invoiceitemid) {
 
-        boolean result = false;
+        boolean result;
         SQLiteDatabase db = this.getWritableDatabase();
         result = db.delete(TABLE_INVOICE_ITEM, INVOICE_ITEM_ID + " = " + invoiceitemid, null) > 0;
         db.close();
@@ -598,7 +616,7 @@ public class Database extends SQLiteOpenHelper {
 
     public boolean deleteInvoice(int invoiceid) {
 
-        boolean result = false;
+        boolean result;
         SQLiteDatabase db = this.getWritableDatabase();
         result = db.delete(TABLE_INVOICE, INVOICE_ID + " = " + invoiceid, null) > 0;
         db.close();

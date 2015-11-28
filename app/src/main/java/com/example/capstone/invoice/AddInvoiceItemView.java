@@ -1,3 +1,19 @@
+/*
+ * Copyright (C) 2013 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.example.capstone.invoice;
 
 import android.content.Intent;
@@ -13,16 +29,21 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
+/*
+ * This class allows the invoice application to list, add, update, and delete an invoice item
+ *
+ */
+
 public class AddInvoiceItemView extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener{
-    boolean update = false;
-    EditText IName;
-    EditText IRate;
-    EditText QFront;
-    EditText QLeft;
-    EditText QRight;
-    EditText QBack;
-    ListView itemListView;
-    ItemViewListAdapter itemViewAdapter;
+    private boolean update = false;
+    private EditText IName;
+    private EditText IRate;
+    private EditText QFront;
+    private EditText QLeft;
+    private EditText QRight;
+    private EditText QBack;
+    private ListView itemListView;
+    private ItemViewListAdapter itemViewAdapter;
     private int invoiceId;
     private ArrayList<InvoiceItem> AInvoiceItem;
     private Database dbHandler;
@@ -88,22 +109,22 @@ public class AddInvoiceItemView extends AppCompatActivity implements View.OnClic
 
     }
 
+    // Adds an invoice item to the database and then exits the view
     public void AddInvoiceItem(View view){
         Database dbHandler = new Database(this, null, null, 1);
 
-        if (IName.getText().toString().equals("") || IRate.getText().toString().equals("") || update == true){
+        if (IName.getText().toString().equals("") || IRate.getText().toString().equals("") || update){
             Log.d("InvoiceItemView", "error Should not add");
         }else{
-            Log.d("InvoiceItemView", "Should add to database");
             InvoiceItem iitem;
             int rate, QF, QB, QL, QR;
             try {
                 String s= IRate.getText().toString();
                 rate =(int) (Double.parseDouble(s.substring(1)) * 100);
-                QF = (int) (Integer.parseInt(QFront.getText().toString()));
-                QB = (int) (Integer.parseInt(QBack.getText().toString()));
-                QL = (int) (Integer.parseInt(QLeft.getText().toString()));
-                QR = (int) (Integer.parseInt(QRight.getText().toString()));
+                QF =(Integer.parseInt(QFront.getText().toString()));
+                QB =(Integer.parseInt(QBack.getText().toString()));
+                QL =(Integer.parseInt(QLeft.getText().toString()));
+                QR =(Integer.parseInt(QRight.getText().toString()));
 
                 iitem = new InvoiceItem(invoiceId, IName.getText().toString(), rate, QF, QB, QL, QR);
 
@@ -112,11 +133,11 @@ public class AddInvoiceItemView extends AppCompatActivity implements View.OnClic
             }catch (Exception e) {
                 Log.d("InvoiceItemView", e.toString());
             }
-
         }
         finish();
     }
 
+    // Updates an invoice item and ends the view
     public void updateInvoiceItem(View view){
         if (update){
             InvoiceItem iitem;
@@ -172,11 +193,8 @@ public class AddInvoiceItemView extends AppCompatActivity implements View.OnClic
 
     }
 
-
-
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
         Item item = itemViewAdapter.getItem(position);
         IName.setText(item.getItemName());
         IRate.setText(moneyFormat(item));
@@ -194,15 +212,5 @@ public class AddInvoiceItemView extends AppCompatActivity implements View.OnClic
         String s = String.format("$%.2f", temp );
         return s;
     }
-
-    private void ResetTextField(){
-        IRate.setText("");
-        IName.setText("");
-        QFront.setText("0");
-        QBack.setText("0");
-        QLeft.setText("0");
-        QRight.setText("0");
-    }
-
 
 }
