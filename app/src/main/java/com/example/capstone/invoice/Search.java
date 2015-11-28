@@ -99,5 +99,6 @@ public class Search extends AppCompatActivity implements View.OnClickListener, A
         Toast.makeText(Search.this, "clicked", Toast.LENGTH_SHORT).show();
         //startActivity(intentBundle);
         startActivityForResult(intentBundle, 1);
+        finish();
     }
 }

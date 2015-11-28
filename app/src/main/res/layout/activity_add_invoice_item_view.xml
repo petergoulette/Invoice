@@ -162,14 +162,14 @@
             android:layout_height="wrap_content"
             android:text="@string/_update_item"
             android:id="@+id/button2"
-            android:onClick="" />
+            android:onClick="updateInvoiceItem" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/_delete_item"
             android:id="@+id/button3"
-            android:onClick="" />
+            android:onClick="deleteInvoiceItem" />
     </LinearLayout>
     <ListView
         android:id="@+id/main_item_listview"

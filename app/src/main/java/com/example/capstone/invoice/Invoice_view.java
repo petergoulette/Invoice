@@ -57,35 +57,34 @@ public class Invoice_view extends AppCompatActivity implements View.OnClickListe
         dbHandler = new Database(this, null, null, 1);
         invoice = new Invoice();
         customer = new Customer();
+        editTextHolder(); //create fields to the UI IDs
+        Button _AddInvoiceItem = (Button) findViewById(R.id.ConstaddInvoiceItem);
 
+        // Access the ListView
+        invoiceItemListView = (ListView) findViewById(R.id.FInvoice_Item_listview);
+
+        // Collect intent when page loads to determine if old invoice or new
+        // If old get collect invoice and populate objs
         Intent intentExtras = getIntent();
         Bundle extrasBundle = intentExtras.getExtras();
         if (extrasBundle != null){
-            Log.d("bundle", "");
+            Log.d("bundle", "yes a bundle");
             //we have a bundle
-            invoice.setInvoiceID(extrasBundle.getInt("SendInvoiceID"));
-            Log.d("bundle", "" + invoice.getInvoiceID());
-            invoice = dbHandler.getInvoice(invoice.getInvoiceID());
-            //IRate.setText(Integer.toString(invoiceId));
+            int invoiceID;
+            invoiceID = extrasBundle.getInt("SendInvoiceID");
+            Log.d("bundle", "" + invoiceID);
+            invoice = dbHandler.getInvoice(invoiceID);
+            customer = dbHandler.getCustomer(invoice.getCustomerID());
+            setRecurringInvoice();
         } else {
 
             dbHandler.addInvoice(invoice); // create new invoice and input in database to assign invoice ID
             invoice = dbHandler.getLastInvoice(); // collect invoice and assign invoice ID
-
+            GetDate(); // create date for new invoice
+            InvoiceID.setText(Integer.toString(invoice.getInvoiceID()));
         }
 
 
-
-        Button _AddInvoiceItem = (Button) findViewById(R.id.ConstaddInvoiceItem);
-
-        Log.d("Test Value of ID", invoice.getInvoiceID() + "");
-
-
-        editTextHolder();
-
-        GetDate();
-        // Access the ListView
-        invoiceItemListView = (ListView) findViewById(R.id.FInvoice_Item_listview);
 
         // shuts off scrolling within the main view during the list view
         invoiceItemListView.setOnTouchListener(new ListView.OnTouchListener() {
@@ -204,39 +203,58 @@ public class Invoice_view extends AppCompatActivity implements View.OnClickListe
 
         if(BCheck.isChecked()){
             sumB = getSideSum("B");
-            bTotal.setText(Integer.toString(sumB));
+            bTotal.setText(formatSum(sumB));
 
         }else {
-            bTotal.setText(Integer.toString(sumB=0));}
+            sumB = 0;
+            bTotal.setText(formatSum(sumB));}
 
         if(FCheck.isChecked()){
             sumF = getSideSum("F");
-            fTotal.setText(Integer.toString(sumF));
+            fTotal.setText(formatSum(sumF));
 
         }else {
-            fTotal.setText(Integer.toString(sumF = 0));}
+            sumF = 0;
+            fTotal.setText(formatSum(sumF));}
 
         if(LCheck.isChecked()){
             sumL = getSideSum("L");
-            lTotal.setText(Integer.toString(sumL));
+            lTotal.setText(formatSum(sumL));
 
         }else {
-            lTotal.setText(Integer.toString(sumL = 0));}
+            sumL = 0;
+            lTotal.setText(formatSum(sumL));
+        }
 
         if(RCheck.isChecked()){
             sumR = getSideSum("R");
-            rTotal.setText(Integer.toString(sumR));
+            rTotal.setText(formatSum(sumR));
 
         }else {
-            rTotal.setText(Integer.toString(sumR = 0));}
+            sumR=0;
+            rTotal.setText(formatSum(sumR));}
+
         sumTotal = sumB + sumF + sumL + sumR;
 
-        finalTotal.setText(Integer.toString(sumTotal));
+        finalTotal.setText(formatSum(sumTotal));
+    }
+
+    private String formatSum(int num){
+        double dnum = num * .01;
+        String s = String.format("$%.2f", dnum);
+        return s;
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+        InvoiceItem iitem = invoiceItemViewAdapter.getItem(position);
+        Intent intentBundle = new Intent(Invoice_view.this, AddInvoiceItemView.class);
+        Bundle bundle = new Bundle();
+        bundle.putInt("SendInvoiceID", invoice.getInvoiceID());
+        bundle.putInt("SendInvoiceItem", iitem.getInvoiceItemId());
+        intentBundle.putExtras(bundle);
+        //startActivity(intentBundle);
+        startActivityForResult(intentBundle, 1);
     }
 
     @Override
@@ -277,6 +295,20 @@ public class Invoice_view extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    private void setRecurringInvoice() {
+        InvoiceDate.setText(invoice.getInvoiceDate());
+        InvoiceID.setText(Integer.toString(invoice.getInvoiceID()));
+
+        CFirstName.setText(customer.getCustomerFirstName());
+        CLastName.setText(customer.getCustomerLastName());
+        CStreet.setText(customer.getCustomerStreet());
+        CPhone.setText(customer.getCustomerPhone());
+        CState.setText(customer.getCustomerState());
+        CZip.setText(customer.getCustomerZip());
+        CNotes.setText(customer.getCustomerNotes());
+        CCity.setText(customer.getCustomerCity());
+    }
+
     private void setCustomerObject(){
         customer.setCustomerFirstName(CFirstName.getText().toString());
         customer.setCustomerLastName(CLastName.getText().toString());
@@ -297,7 +329,7 @@ public class Invoice_view extends AppCompatActivity implements View.OnClickListe
         // attach text to invoice fields
         InvoiceDate = (EditText) findViewById(R.id.DateText);
         InvoiceID = (EditText) findViewById(R.id.InvoiceIDText);
-        InvoiceID.setText(Integer.toString(invoice.getInvoiceID()));
+        //InvoiceID.setText(Integer.toString(invoice.getInvoiceID()));
 
         //attach edittext to customer fields
         CFirstName = (EditText) findViewById(R.id.FirstNameText);
@@ -325,8 +357,6 @@ public class Invoice_view extends AppCompatActivity implements View.OnClickListe
         BCheck.setOnClickListener(this);
         LCheck.setOnClickListener(this);
         RCheck.setOnClickListener(this);
-
-
     }
 
     private int getSideSum(String Side){

@@ -14,7 +14,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 public class AddInvoiceItemView extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener{
-
+    boolean update = false;
     EditText IName;
     EditText IRate;
     EditText QFront;
@@ -25,13 +25,25 @@ public class AddInvoiceItemView extends AppCompatActivity implements View.OnClic
     ItemViewListAdapter itemViewAdapter;
     private int invoiceId;
     private ArrayList<InvoiceItem> AInvoiceItem;
-
+    private Database dbHandler;
+    private int invoiceIID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_invoice_item_view);
-        Database dbHandler = new Database(this, null, null, 1);
+        dbHandler = new Database(this, null, null, 1);
+
+        IName = (EditText) findViewById(R.id._itemName);
+        IRate = (EditText) findViewById(R.id.itemRate);
+        QFront = (EditText) findViewById(R.id.FQuantity);
+        QBack = (EditText) findViewById(R.id.BQuantity);
+        QLeft = (EditText) findViewById(R.id.LQuantity);
+        QRight = (EditText) findViewById(R.id.RQuantity);
+        QFront.setText("0");
+        QBack.setText("0");
+        QLeft.setText("0");
+        QRight.setText("0");
 
         //get Bundle from intent and extract the invoiceId
         Intent intentExtras = getIntent();
@@ -39,8 +51,25 @@ public class AddInvoiceItemView extends AppCompatActivity implements View.OnClic
         if (extrasBundle != null){
             Log.d("bundle", "");
             //we have a bundle
-            invoiceId = extrasBundle.getInt("SendInvoiceID");
-            Log.d("bundle", "" + invoiceId);
+
+            if(extrasBundle.getInt("SendInvoiceID")!=0){
+                invoiceId = extrasBundle.getInt("SendInvoiceID");
+                Log.d("bundle", "" + invoiceId);}
+
+            if(extrasBundle.getInt("SendInvoiceItem")!=0){
+
+                InvoiceItem iitem = new InvoiceItem();
+                invoiceIID = extrasBundle.getInt("SendInvoiceItem");
+                iitem = dbHandler.getInvoiceItem(invoiceIID);
+                IName.setText(iitem.getInvoiceItemName());
+                IRate.setText(moneyFormat(iitem));
+                QFront.setText(Integer.toString(iitem.getInvoiceItemFQuantity()));
+                QBack.setText(Integer.toString(iitem.getInvoiceItemBQuantity()));
+                QLeft.setText(Integer.toString(iitem.getInvoiceItemLQuantity()));
+                QRight.setText(Integer.toString(iitem.getInvoiceItemRQuantity()));
+                update = true;
+                }
+
             //IRate.setText(Integer.toString(invoiceId));
         }
 
@@ -57,30 +86,20 @@ public class AddInvoiceItemView extends AppCompatActivity implements View.OnClic
         Log.d("InvoiceItemView", "itemsetAdapter: created");
         itemViewAdapter.updateData(dbHandler.getItemList());
 
-        IName = (EditText) findViewById(R.id._itemName);
-        IRate = (EditText) findViewById(R.id.itemRate);
-        QFront = (EditText) findViewById(R.id.FQuantity);
-        QBack = (EditText) findViewById(R.id.BQuantity);
-        QLeft = (EditText) findViewById(R.id.LQuantity);
-        QRight = (EditText) findViewById(R.id.RQuantity);
-        QFront.setText("0");
-        QBack.setText("0");
-        QLeft.setText("0");
-        QRight.setText("0");
-
     }
 
     public void AddInvoiceItem(View view){
         Database dbHandler = new Database(this, null, null, 1);
 
-        if (IName.getText().toString().equals("") || IRate.getText().toString().equals("")){
+        if (IName.getText().toString().equals("") || IRate.getText().toString().equals("") || update == true){
             Log.d("InvoiceItemView", "error Should not add");
         }else{
             Log.d("InvoiceItemView", "Should add to database");
             InvoiceItem iitem;
             int rate, QF, QB, QL, QR;
             try {
-                rate =(int) (Double.parseDouble(IRate.getText().toString()) * 100);
+                String s= IRate.getText().toString();
+                rate =(int) (Double.parseDouble(s.substring(1)) * 100);
                 QF = (int) (Integer.parseInt(QFront.getText().toString()));
                 QB = (int) (Integer.parseInt(QBack.getText().toString()));
                 QL = (int) (Integer.parseInt(QLeft.getText().toString()));
@@ -90,22 +109,39 @@ public class AddInvoiceItemView extends AppCompatActivity implements View.OnClic
 
                     dbHandler.addInvoiceItem(iitem);
 
-                //ResetTextField();
-
-
-                    //itemViewAdapter.updateData(dbHandler.getItemList());
-//                    Log.d("InvoiceItemView", "ok item updated");
-//                Log.d("InvoiceItemView", "before aInvoiceItem");
-//                AInvoiceItem = dbHandler.getInvoiceItemList(invoiceId);
-//                Log.d("InvoiceItemView", "after aInvoiceItem");
-//                InvoiceItem Itest = AInvoiceItem.get(0);
-//                Log.d("InvoiceItemView", "got list" + Itest.getInvoiceItemName());
-
             }catch (Exception e) {
                 Log.d("InvoiceItemView", e.toString());
             }
 
         }
+        finish();
+    }
+
+    public void updateInvoiceItem(View view){
+        if (update){
+            InvoiceItem iitem;
+            int rate, QF, QB, QL, QR;
+            try {
+                String s= IRate.getText().toString();
+                rate =(int) (Double.parseDouble(s.substring(1)) * 100);
+                QF = (Integer.parseInt(QFront.getText().toString()));
+                QB = (Integer.parseInt(QBack.getText().toString()));
+                QL = (Integer.parseInt(QLeft.getText().toString()));
+                QR = (Integer.parseInt(QRight.getText().toString()));
+
+                iitem = new InvoiceItem(invoiceId, IName.getText().toString(), rate, QF, QB, QL, QR);
+                iitem.setInvoiceItemId(invoiceIID);
+                dbHandler.updateInvoiceItem(iitem);
+
+            }catch (Exception e) {
+                Log.d("InvoiceItemView", e.toString());
+            }
+        }
+        finish();
+    }
+
+    public void deleteInvoiceItem(View view){
+        dbHandler.deleteInvoiceItem(invoiceIID);
         finish();
     }
 
@@ -143,8 +179,20 @@ public class AddInvoiceItemView extends AppCompatActivity implements View.OnClic
 
         Item item = itemViewAdapter.getItem(position);
         IName.setText(item.getItemName());
-        IRate.setText(Integer.toString(item.getItemRate()));
+        IRate.setText(moneyFormat(item));
         Log.d("In here", "here" + position);
+    }
+
+    private String moneyFormat(Item item){
+        Double temp = item.getItemRate()*.01;
+        String s = String.format("$%.2f", temp );
+        return s;
+    }
+
+    private String moneyFormat(InvoiceItem item){
+        Double temp = item.getInvoiceItemRate()*.01;
+        String s = String.format("$%.2f", temp );
+        return s;
     }
 
     private void ResetTextField(){

@@ -260,6 +260,22 @@ public class Database extends SQLiteOpenHelper {
         return result;
     }
 
+    public boolean updateInvoiceItem(InvoiceItem invoiceitem) {
+        ContentValues values = new ContentValues();
+        values.put(INVOICE_ITEM_NAME, invoiceitem.getInvoiceItemName());
+        values.put(INVOICE_ITEM_RATE, invoiceitem.getInvoiceItemRate());
+        values.put(INVOICE_FQUANTITY, invoiceitem.getInvoiceItemFQuantity());
+        values.put(INVOICE_BQUANTITY, invoiceitem.getInvoiceItemBQuantity());
+        values.put(INVOICE_LQUANTITY, invoiceitem.getInvoiceItemLQuantity());
+        values.put(INVOICE_RQUANTITY, invoiceitem.getInvoiceItemRQuantity());
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        boolean result = db.update(TABLE_INVOICE_ITEM, values, INVOICE_ITEM_ID + "=" + invoiceitem.getInvoiceItemId() ,null) > 0;
+        db.close();
+        return result;
+    }
+
 
 
     // use this method to find invoice by customer id
@@ -418,6 +434,34 @@ public class Database extends SQLiteOpenHelper {
         return cust;
     }
 
+    public InvoiceItem getInvoiceItem(int invoiceitemID){
+        String query = "Select * FROM " + TABLE_INVOICE_ITEM + " WHERE " + INVOICE_ITEM_ID + " =  \"" + invoiceitemID + "\"";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor cursor = db.rawQuery(query, null);
+
+        InvoiceItem iitem = new InvoiceItem();
+
+        if (cursor.moveToFirst()) {
+            cursor.moveToFirst();
+            iitem.setInvoiceItemId(Integer.parseInt(cursor.getString(0)));
+            iitem.setInvoiceId(Integer.parseInt(cursor.getString(1)));
+            iitem.setInvoiceItemName(cursor.getString(2));
+            iitem.setInvoiceItemRate(Integer.parseInt(cursor.getString(3)));
+            iitem.setInvoiceItemFQuantity(Integer.parseInt(cursor.getString(4)));
+            iitem.setInvoiceItemBQuantity(Integer.parseInt(cursor.getString(5)));
+            iitem.setInvoiceItemLQuantity(Integer.parseInt(cursor.getString(6)));
+            iitem.setInvoiceItemRQuantity(Integer.parseInt(cursor.getString(7)));
+            cursor.close();
+        } else {
+            iitem = null;
+        }
+        db.close();
+
+        return iitem;
+    }
+
     public Customer getCustomer(int customerID){
         String query = "Select * FROM " + TABLE_CUSTOMER + " WHERE " + CUSTOMER_ID + " =  \"" + customerID + "\"";
 
@@ -519,11 +563,23 @@ public class Database extends SQLiteOpenHelper {
         return result;
     }
 
+    public boolean deleteInvoiceItem(int invoiceitemid) {
+
+        boolean result = false;
+        SQLiteDatabase db = this.getWritableDatabase();
+        result = db.delete(TABLE_INVOICE_ITEM, INVOICE_ITEM_ID + " = " + invoiceitemid, null) > 0;
+        db.close();
+        return result;
+
+    }
+
     public boolean deleteInvoice(int invoiceid) {
 
         boolean result = false;
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete(TABLE_INVOICE, INVOICE_ID + " = " + invoiceid, null) > 0;
+        result = db.delete(TABLE_INVOICE, INVOICE_ID + " = " + invoiceid, null) > 0;
+        db.close();
+        return result;
 
     }
 

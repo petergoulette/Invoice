@@ -80,7 +80,7 @@ public class InvoiceItemViewListAdapter extends BaseAdapter{
             itemTitle = Iitem.getInvoiceItemName();
         }
 
-        rateTitle = Double.toString(Iitem.getInvoiceItemRate() * .01);
+        rateTitle = moneyFormat(Iitem);
         qFront = Integer.toString(Iitem.getInvoiceItemFQuantity());
         qBack = Integer.toString(Iitem.getInvoiceItemBQuantity());
         qLeft = Integer.toString(Iitem.getInvoiceItemLQuantity());
@@ -95,6 +95,12 @@ public class InvoiceItemViewListAdapter extends BaseAdapter{
 
 
         return convertView;
+    }
+
+    private String moneyFormat(InvoiceItem item){
+        Double temp = item.getInvoiceItemRate()*.01;
+        String s = String.format("$%.2f", temp );
+        return s;
     }
 
     public void updateData(ArrayList<InvoiceItem> aitem){

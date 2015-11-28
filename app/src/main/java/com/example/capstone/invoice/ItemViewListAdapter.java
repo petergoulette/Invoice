@@ -72,13 +72,19 @@ public class ItemViewListAdapter extends BaseAdapter{
             itemTitle = item.getItemName();
         }
 
-        rateTitle = Double.toString(item.getItemRate() * .01);
+        rateTitle = moneyFormat(item);
         // Send these Strings to the TextViews for display
         holder.titleNameView.setText(itemTitle);
         holder.titleRateView.setText(rateTitle);
 
 
         return convertView;
+    }
+
+    private String moneyFormat(Item item){
+        Double temp = item.getItemRate()*.01;
+        String s = String.format("$%.2f", temp );
+        return s;
     }
 
     public void updateData(ArrayList<Item> aitem){

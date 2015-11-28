@@ -341,7 +341,7 @@
          <TextView
              android:id="@+id/FTotalValue"
              android:layout_width="wrap_content"
-             android:text="$1000.00"
+             android:text="$0"
              android:ems="5"
              android:layout_height="wrap_content"
              android:layout_marginLeft="10dp"
@@ -374,7 +374,7 @@
      <TextView
          android:id="@+id/BTotalValue"
          android:layout_width="wrap_content"
-         android:text="$1000.00"
+         android:text="$0"
          android:ems="5"
          android:layout_height="wrap_content"
          android:layout_marginLeft="10dp"
@@ -405,7 +405,7 @@
          <TextView
              android:id="@+id/LTotalValue"
              android:layout_width="wrap_content"
-             android:text="$1000.00"
+             android:text="$0"
              android:ems="5"
              android:layout_height="wrap_content"
              android:layout_marginLeft="10dp"
@@ -436,7 +436,7 @@
      <TextView
          android:id="@+id/RTotalValue"
          android:layout_width="wrap_content"
-         android:text="$1000.00"
+         android:text="$0"
          android:ems="5"
          android:layout_height="wrap_content"
          android:layout_marginLeft="10dp"
@@ -468,7 +468,7 @@
          <TextView
              android:id="@+id/FinalTotal"
              android:layout_width="wrap_content"
-             android:text="$2300.00"
+             android:text="$0"
              android:layout_height="wrap_content"
              android:layout_marginLeft="10dp"
              android:layout_toRightOf="@+id/ConstTotal"
