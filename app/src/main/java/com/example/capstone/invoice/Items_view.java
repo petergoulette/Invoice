@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
 public class Items_view extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
 
@@ -17,12 +16,14 @@ public class Items_view extends AppCompatActivity implements View.OnClickListene
     EditText IRate;
     ListView itemListView;
     ItemViewListAdapter itemViewAdapter;
+    private int itemID=0;
+    private Database dbHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_items_view);
-        Database dbHandler = new Database(this, null, null, 1);
+        dbHandler = new Database(this, null, null, 1);
 
         IName = (EditText) findViewById(R.id.itemName);
         IRate = (EditText) findViewById(R.id.itemRate);
@@ -62,9 +63,41 @@ public class Items_view extends AppCompatActivity implements View.OnClickListene
             }catch (Exception e) {
             Log.d("Empty Value", e.toString());
         }
+    }
+
+    public void updateItem(View view){
+        if(itemID != 0){
+            Item item = new Item();
+            int rate;
+            try {
+                String s= IRate.getText().toString();
+                rate =(int) (Double.parseDouble(s.substring(1)) * 100);
 
 
+                item.setItemId(itemID);
+                item.setItemName(IName.getText().toString());
+                item.setItemRate(rate);
+                dbHandler.updateItem(item);
 
+            }catch (Exception e) {
+                Log.d("InvoiceItemView", e.toString());
+            }
+            itemID = 0;
+            IRate.setText("");
+            IName.setText("");
+            itemViewAdapter.updateData(dbHandler.getItemList());
+
+        }
+    }
+
+    public void deleteItem(View view){
+        if(itemID != 0){
+            dbHandler.deleteItem(itemID);
+            itemID = 0;
+            IRate.setText("");
+            IName.setText("");
+            itemViewAdapter.updateData(dbHandler.getItemList());
+        }
 
     }
 
@@ -97,6 +130,17 @@ public class Items_view extends AppCompatActivity implements View.OnClickListene
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Toast.makeText(Items_view.this, "Clicked", Toast.LENGTH_SHORT).show();
+        Item item = itemViewAdapter.getItem(position);
+        Item item2 = dbHandler.findItem(item.getItemName());
+        itemID = item2.getItemId();
+        IName.setText(item.getItemName());
+        IRate.setText(moneyFormat(item));
+        Log.d("In here", "here" + position);
+    }
+
+    private String moneyFormat(Item item){
+        Double temp = item.getItemRate()*.01;
+        String s = String.format("$%.2f", temp );
+        return s;
     }
 }

@@ -242,6 +242,19 @@ public class Database extends SQLiteOpenHelper {
         return result;
     }
 
+    public boolean updateItem(Item item) {
+
+        ContentValues values = new ContentValues();
+        values.put(ITEM_NAME, item.getItemName());
+        values.put(ITEM_RATE, item.getItemRate());
+        Log.d("adding: ", "inserting...");
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        boolean result = db.update(TABLE_ITEM, values, ITEM_ID + "=" + item.getItemId() ,null) > 0;
+        db.close();
+        return result;
+    }
+
     public boolean updateCustomer(Customer customer) {
         ContentValues values = new ContentValues();
         values.put(CUSTOMER_FIRST_NAME, customer.getCustomerFirstName());
@@ -561,6 +574,16 @@ public class Database extends SQLiteOpenHelper {
         }
         db.close();
         return result;
+    }
+
+    public boolean deleteItem(int itemid) {
+
+        boolean result = false;
+        SQLiteDatabase db = this.getWritableDatabase();
+        result = db.delete(TABLE_ITEM, ITEM_ID + " = " + itemid, null) > 0;
+        db.close();
+        return result;
+
     }
 
     public boolean deleteInvoiceItem(int invoiceitemid) {
