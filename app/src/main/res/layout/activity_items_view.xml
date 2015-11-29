@@ -75,6 +75,8 @@
              android:text="@string/_delete_item"
              android:id="@+id/button3"
              android:onClick="deleteItem" />
+
+
      </LinearLayout>
      <!-- Listview -->
      <ListView

@@ -66,6 +66,8 @@ public class Invoice_view extends AppCompatActivity implements View.OnClickListe
     private TextView lTotal;
     private TextView finalTotal;
     private ArrayList<InvoiceItem> IItemList;
+    private Button _PrintView;
+    private int InvoiceTotal;
 
 
 
@@ -80,6 +82,9 @@ public class Invoice_view extends AppCompatActivity implements View.OnClickListe
         customer = new Customer();
         editTextHolder(); //create fields to the UI IDs
         Button _AddInvoiceItem = (Button) findViewById(R.id.ConstaddInvoiceItem);
+        _PrintView = (Button) findViewById(R.id.PrintViewButton);
+
+        InvoiceTotal = 0;
 
         // Access the ListView
         invoiceItemListView = (ListView) findViewById(R.id.FInvoice_Item_listview);
@@ -148,6 +153,18 @@ public class Invoice_view extends AppCompatActivity implements View.OnClickListe
                 Intent intentBundle = new Intent(Invoice_view.this, AddInvoiceItemView.class);
                 Bundle bundle = new Bundle();
                 bundle.putInt("SendInvoiceID", invoice.getInvoiceID());
+                intentBundle.putExtras(bundle);
+                //startActivity(intentBundle);
+                startActivityForResult(intentBundle, 1);
+            }
+        });
+
+        _PrintView.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intentBundle = new Intent(Invoice_view.this, InvoicePrintView.class);
+                Bundle bundle = new Bundle();
+                bundle.putInt("SendInvoiceID", invoice.getInvoiceID());
+                bundle.putInt("Total", InvoiceTotal);
                 intentBundle.putExtras(bundle);
                 //startActivity(intentBundle);
                 startActivityForResult(intentBundle, 1);
@@ -259,6 +276,7 @@ public class Invoice_view extends AppCompatActivity implements View.OnClickListe
         sumTotal = sumB + sumF + sumL + sumR;
 
         finalTotal.setText(formatSum(sumTotal));
+        InvoiceTotal=sumTotal;
     }
 
     private String formatSum(int num){
@@ -411,6 +429,10 @@ public class Invoice_view extends AppCompatActivity implements View.OnClickListe
             }
         }
         return sum;
+    }
+
+    public void printView(View view){
+
     }
 
     public void refresh(View view){

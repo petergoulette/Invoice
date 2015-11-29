@@ -60,7 +60,10 @@ public class Items_view extends AppCompatActivity implements View.OnClickListene
         Log.d("itemsetAdapter:", "created");
         itemViewAdapter.updateData(dbHandler.getItemList());
         itemListView.setOnItemClickListener(this);
+
+
     }
+
 
     public void newItem (View view) {
 

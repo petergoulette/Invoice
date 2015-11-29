@@ -90,8 +90,6 @@ public class AddInvoiceItemView extends AppCompatActivity implements View.OnClic
                 QRight.setText(Integer.toString(iitem.getInvoiceItemRQuantity()));
                 update = true;
                 }
-
-            //IRate.setText(Integer.toString(invoiceId));
         }
 
         itemListView = (ListView) findViewById(R.id.main_item_listview);

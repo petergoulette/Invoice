@@ -43,6 +43,7 @@
     <string name="R">R</string>
     <string name="_Refresh">Refresh</string>
     <string name="Date">Date:</string>
+    <string name="printView">Print View</string>
 
     <!-- Search List View -->
     <string name="InvoiceNum">IN#:</string>
@@ -52,6 +53,16 @@
 
     <string name="Quantity">QTY:</string>
     <color name="lt_blue">#7f99ff</color>
+    <string name="title_activity_invoice_print_view">InvoicePrintView</string>
+
+    <!-- Print View -->
+    <string name="Estimate" >Estimate</string>
+    <string name="CompanyName">Gutter-Runner LLC.</string>
+    <string name="CompanyStreet">4771 Landmark Ln.</string>
+    <string name="CompanyCity">Pace, FL 32571</string>
+    <string name="CompanyState">FL</string>
+    <string name="CompanyZip">32571</string>
+
 
 
 </resources>
