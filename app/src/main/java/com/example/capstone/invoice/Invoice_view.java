@@ -30,6 +30,8 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -68,10 +70,10 @@ public class Invoice_view extends AppCompatActivity implements View.OnClickListe
     private ArrayList<InvoiceItem> IItemList;
     private Button _PrintView;
     private int InvoiceTotal;
-
-
-
-
+    private boolean mSumRightCheck;
+    private boolean mSumLeftCheck;
+    private boolean mSumFrontCheck;
+    private boolean mSumBackCheck;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,10 +83,14 @@ public class Invoice_view extends AppCompatActivity implements View.OnClickListe
         invoice = new Invoice();
         customer = new Customer();
         editTextHolder(); //create fields to the UI IDs
+
         Button _AddInvoiceItem = (Button) findViewById(R.id.ConstaddInvoiceItem);
         _PrintView = (Button) findViewById(R.id.PrintViewButton);
 
+        // Initialize the Invoice total
         InvoiceTotal = 0;
+
+
 
         // Access the ListView
         invoiceItemListView = (ListView) findViewById(R.id.FInvoice_Item_listview);
@@ -161,17 +167,24 @@ public class Invoice_view extends AppCompatActivity implements View.OnClickListe
 
         _PrintView.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intentBundle = new Intent(Invoice_view.this, InvoicePrintView.class);
-                Bundle bundle = new Bundle();
-                bundle.putInt("SendInvoiceID", invoice.getInvoiceID());
-                bundle.putInt("Total", InvoiceTotal);
-                intentBundle.putExtras(bundle);
-                //startActivity(intentBundle);
-                startActivityForResult(intentBundle, 1);
+                if (customer.getCustomerID() != 0){
+
+                    Intent intentBundle = new Intent(Invoice_view.this, InvoicePrintView.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("SendInvoiceID", invoice.getInvoiceID());
+                    bundle.putInt("Total", InvoiceTotal);
+                    intentBundle.putExtras(bundle);
+                    //startActivity(intentBundle);
+                    startActivityForResult(intentBundle, 1);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Add Invoice First", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
-
+//        mSumRightCheck = true;
+//        RCheck.setChecked(mSumRightCheck);
+//        CheckTotal();
     }
 
     public void addInvoiceCustomer (View view) {
@@ -238,6 +251,10 @@ public class Invoice_view extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
+        CheckTotal();
+    }
+
+    private void CheckTotal(){
         int sumB, sumF, sumL, sumR, sumTotal;
 
         if(BCheck.isChecked()){
@@ -431,8 +448,8 @@ public class Invoice_view extends AppCompatActivity implements View.OnClickListe
         return sum;
     }
 
-    public void printView(View view){
-
+    private void setTotalCheck(){
+        FCheck.isChecked();
     }
 
     public void refresh(View view){

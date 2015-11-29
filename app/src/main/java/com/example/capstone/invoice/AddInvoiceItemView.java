@@ -26,6 +26,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -36,6 +37,7 @@ import java.util.ArrayList;
 
 public class AddInvoiceItemView extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener{
     private boolean update = false;
+    private boolean mFromList = true;
     private EditText IName;
     private EditText IRate;
     private EditText QFront;
@@ -48,12 +50,15 @@ public class AddInvoiceItemView extends AppCompatActivity implements View.OnClic
     private ArrayList<InvoiceItem> AInvoiceItem;
     private Database dbHandler;
     private int invoiceIID;
+    private InvoiceItem mItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_invoice_item_view);
         dbHandler = new Database(this, null, null, 1);
+
+        mItem = new InvoiceItem();
 
         IName = (EditText) findViewById(R.id._itemName);
         IRate = (EditText) findViewById(R.id.itemRate);
@@ -112,27 +117,33 @@ public class AddInvoiceItemView extends AppCompatActivity implements View.OnClic
         Database dbHandler = new Database(this, null, null, 1);
 
         if (IName.getText().toString().equals("") || IRate.getText().toString().equals("") || update){
-            Log.d("InvoiceItemView", "error Should not add");
+            Toast.makeText(getApplicationContext(), "You must add \n Invoice Item from list", Toast.LENGTH_SHORT).show();
         }else{
-            InvoiceItem iitem;
+
             int rate, QF, QB, QL, QR;
             try {
                 String s= IRate.getText().toString();
-                rate =(int) (Double.parseDouble(s.substring(1)) * 100);
+                if (s.charAt(0)=='$'){
+                    rate =(int) (Double.parseDouble(s.substring(1)) * 100);
+                } else {
+                    rate = (int) (Double.parseDouble(s) * 100);
+                }
                 QF =(Integer.parseInt(QFront.getText().toString()));
                 QB =(Integer.parseInt(QBack.getText().toString()));
                 QL =(Integer.parseInt(QLeft.getText().toString()));
                 QR =(Integer.parseInt(QRight.getText().toString()));
 
-                iitem = new InvoiceItem(invoiceId, IName.getText().toString(), rate, QF, QB, QL, QR);
+                mItem = new InvoiceItem(invoiceId, IName.getText().toString(), rate, QF, QB, QL, QR);
 
-                    dbHandler.addInvoiceItem(iitem);
+                    dbHandler.addInvoiceItem(mItem);
+
 
             }catch (Exception e) {
                 Log.d("InvoiceItemView", e.toString());
             }
+            finish();
         }
-        finish();
+
     }
 
     // Updates an invoice item and ends the view
@@ -141,8 +152,11 @@ public class AddInvoiceItemView extends AppCompatActivity implements View.OnClic
             InvoiceItem iitem;
             int rate, QF, QB, QL, QR;
             try {
-                String s= IRate.getText().toString();
-                rate =(int) (Double.parseDouble(s.substring(1)) * 100);
+                String s= IRate.getText().toString();if (s.charAt(0)=='$'){
+                    rate =(int) (Double.parseDouble(s.substring(1)) * 100);
+                } else {
+                    rate = (int) (Double.parseDouble(s) * 100);
+                }
                 QF = (Integer.parseInt(QFront.getText().toString()));
                 QB = (Integer.parseInt(QBack.getText().toString()));
                 QL = (Integer.parseInt(QLeft.getText().toString()));

@@ -209,24 +209,24 @@
                 android:id="@+id/NotesText" />
         </TableRow>
 </TableLayout>
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_margin="10dp">
+    <!--<LinearLayout-->
+        <!--android:orientation="horizontal"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center_horizontal"-->
+        <!--android:layout_margin="10dp">-->
 
 
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/_add_customer"
-            android:id="@+id/button2"
-            android:onClick="addInvoiceCustomer" />
+        <!--<Button-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@string/_add_customer"-->
+            <!--android:id="@+id/button2"-->
+            <!--android:onClick="addInvoiceCustomer" />-->
 
 
-    </LinearLayout>
+    <!--</LinearLayout>-->
 
     <View
         android:layout_marginTop="5dp"
